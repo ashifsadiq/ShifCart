@@ -49,21 +49,16 @@ function BottomTabNavigator() {
 
 export default function MainNavigator() {
   return (
-    <>
-      <Text>
-        <Icon name="home" />
-      </Text>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen
-            name="BottomTabNavigator"
-            component={BottomTabNavigator}
-          />
-          <Stack.Screen name="Search" component={SearchScreen} />
-          <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen
+          name="BottomTabNavigator"
+          component={BottomTabNavigator}
+        />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
