@@ -4,6 +4,8 @@ import theme from '../../config/theme'
 import ProductsComponent from '../../Components/ProductsComponent'
 import { AntDesign } from '../../Components/CustomIcons'
 import { useNavigation } from '@react-navigation/native'
+import CatButtonsSkelton from '../../Components/CatButtonsSkelton'
+import ProductSkelton from '../../Components/ProductSkelton'
 
 function CategoryLayout({
     categoryData = [],
@@ -16,7 +18,7 @@ function CategoryLayout({
 }) {
     const navigation = useNavigation();
     const categoryListRef = React.useRef(null);
-    if (categoryData.length > 0) return (<View style={[styles.section, { opacity: loading ? 0.5 : 1 }]}>
+    return (<View style={[styles.section, { opacity: loading ? 0.5 : 1 }]}>
         <FlatList
             data={
                 [
@@ -40,7 +42,7 @@ function CategoryLayout({
                             <AntDesign color={theme.primary} name="rightcircle" size={theme.fontSize['text-2xl']} />
                         </TouchableOpacity>}
                     </View>,
-                    <FlatList
+                    categoryData.length ? <FlatList
                         data={categoryData}
                         ref={categoryListRef}
                         keyExtractor={(item, index) => index.toString()}
@@ -61,8 +63,8 @@ function CategoryLayout({
                                 <Text style={styles.categoryText} >{item}</Text>
                             </TouchableOpacity>
                         )}
-                    />,
-                    <FlatList
+                    /> : <CatButtonsSkelton />,
+                    categoryDataProduct.length ? <FlatList
                         data={categoryDataProduct ?? []}
                         keyExtractor={(item, index) => index.toString()}
                         contentContainerStyle={{
@@ -90,7 +92,7 @@ function CategoryLayout({
                         )}
                         showsVerticalScrollIndicator={false}
                         ListEmptyComponent={<Text>No products available</Text>}
-                    />
+                    /> : <ProductSkelton />
                 ]
             }
             keyExtractor={(item, index) => index.toString()}

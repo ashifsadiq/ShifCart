@@ -6,6 +6,7 @@ import ProductsComponent from '../../Components/ProductsComponent';
 import theme from '../../config/theme';
 import CategoryLayout from '../Category/CategoryLayout';
 import JustForYou from './JustForYou';
+import CatButtonsSkelton from '../../Components/CatButtonsSkelton';
 
 export default function HomeScreen() {
   const isDarkMode = false //useColorScheme() === 'dark';
