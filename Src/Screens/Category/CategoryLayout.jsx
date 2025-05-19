@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { memo } from 'react'
 import theme from '../../config/theme'
 import ProductsComponent from '../../Components/ProductsComponent'
@@ -15,72 +15,91 @@ function CategoryLayout({
     contentContainerStyle = {}
 }) {
     const navigation = useNavigation();
+    const categoryListRef = React.useRef(null);
     if (categoryData.length > 0) return (<View style={[styles.section, { opacity: loading ? 0.5 : 1 }]}>
-        <View style={styles.header} >
-            <Text style={styles.subtitle}>Categories</Text>
-            {!hideViewAll && <TouchableOpacity
-                style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: theme.radius,
-                    justifyContent: 'center',
-                }}
-                onPress={() => {
-                    navigation.navigate('CategoryScreen', {
-                        currentActiveCat,
-                        categoryDataProduct,
-                        categoryData,
-                    })
-                }} >
-                <Text style={{ fontSize: theme.fontSize['text-xl'] }}>View All</Text>
-                <AntDesign color={theme.primary} name="rightcircle" size={theme.fontSize['text-2xl']} />
-            </TouchableOpacity>}
-        </View>
         <FlatList
-            data={categoryData}
+            data={
+                [
+                    <View style={styles.header}>
+                        <Text style={styles.subtitle}>Categories</Text>
+                        {!hideViewAll && <TouchableOpacity
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: theme.radius,
+                                justifyContent: 'center',
+                            }}
+                            onPress={() => {
+                                navigation.navigate('CategoryScreen', {
+                                    currentActiveCat,
+                                    categoryDataProduct,
+                                    categoryData,
+                                })
+                            }} >
+                            <Text style={{ fontSize: theme.fontSize['text-xl'] }}>View All</Text>
+                            <AntDesign color={theme.primary} name="rightcircle" size={theme.fontSize['text-2xl']} />
+                        </TouchableOpacity>}
+                    </View>,
+                    <FlatList
+                        data={categoryData}
+                        ref={categoryListRef}
+                        keyExtractor={(item, index) => index.toString()}
+                        horizontal
+                        style={{ flexGrow: 0, columnGap: 10, paddingHorizontal: theme.radius }}
+                        contentContainerStyle={{
+                            columnGap: 10,
+                            ...styles.section,
+                            ...contentContainerStyle,
+                        }}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity disabled={loading} style={[styles.button, {
+                                borderColor: currentActiveCat === item ? theme.primary : 'transparent',
+                            }]}
+                                onPress={() => onPressCategory(item)}
+                            >
+                                <Text style={styles.categoryText} >{item}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />,
+                    <FlatList
+                        data={categoryDataProduct ?? []}
+                        keyExtractor={(item, index) => index.toString()}
+                        contentContainerStyle={{
+                            columnGap: theme.radius,
+                            rowGap: theme.radius * 2,
+                            alignItems: "center",
+                        }}
+                        renderItem={({ item, index }) => (
+                            <ProductsComponent
+                                id={item?.id}
+                                title={item?.title}
+                                image={item?.image}
+                                price={item?.price}
+                                description={item?.description}
+                                brand={item?.brand}
+                                model={item?.model}
+                                color={item?.color}
+                                category={item?.category}
+                                discount={item?.discount}
+                                customStyle={{
+                                    marginVertical: theme.radius,
+                                    marginHorizontal: theme.radius * 2,
+                                }}
+                            />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        ListEmptyComponent={<Text>No products available</Text>}
+                    />
+                ]
+            }
             keyExtractor={(item, index) => index.toString()}
-            horizontal
-            style={{ flexGrow: 0, columnGap: 10 }}
+            renderItem={({ item }) => item}
             contentContainerStyle={{
-                columnGap: 10,
-                ...styles.section,
-                ...contentContainerStyle
+                columnGap: theme.radius,
+                rowGap: theme.radius * 2,
             }}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-                <TouchableOpacity disabled={loading} style={[styles.button, {
-                    borderColor: currentActiveCat === item ? theme.primary : 'transparent',
-                }]}
-                    onPress={() => onPressCategory(item)}
-                >
-                    <Text style={styles.categoryText} >{item}</Text>
-                </TouchableOpacity>
-            )}
-        />
-        <FlatList
-            data={categoryDataProduct ?? []}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
-            renderItem={({ item, index }) => (
-                <ProductsComponent
-                    id={item?.id}
-                    title={item?.title}
-                    image={item?.image}
-                    price={item?.price}
-                    description={item?.description}
-                    brand={item?.brand}
-                    model={item?.model}
-                    color={item?.color}
-                    category={item?.category}
-                    discount={item?.discount}
-                    customStyle={{
-                        marginLeft: index % 2 === 0 ? 0 : theme.radius * 2,
-                    }}
-                />
-            )}
             showsVerticalScrollIndicator={false}
-            ListEmptyComponent={<Text>No products available</Text>}
-            contentContainerStyle={categoryDataProduct.length === 0 ? styles.emptyContainer : null}
         />
     </View>
     )
@@ -91,7 +110,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: theme.radius,
+        paddingHorizontal: theme.radius * 2,
     },
     subtitle: {
         fontSize: theme.fontSize['text-2xl'],

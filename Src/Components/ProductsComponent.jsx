@@ -8,11 +8,6 @@ export default function ProductsComponent({
   title,
   image,
   price,
-  description,
-  brand,
-  model,
-  color,
-  category,
   discount,
   customStyle = {},
 }) {
@@ -27,7 +22,7 @@ export default function ProductsComponent({
         source={{ uri: image }}
         style={[styles.image, {
           height: screenHeight * 0.25,
-          objectFit: "contain"
+          objectFit: "contain",
         }]}
       />
       <Text numberOfLines={2} style={[{ ...styles.title }, styles.title]}>{title}</Text>
@@ -40,13 +35,9 @@ export default function ProductsComponent({
           <Text numberOfLines={2} style={[{ textDecorationLine: "line-through", fontSize: theme.fontSize['text-sm'] }]}>₹{price + ((price / 100) * 3)}</Text>
           <Text numberOfLines={2} style={[{ ...styles.price }]}>₹{price}.00</Text>
         </View>
-        {discount && <Text style={{
-          backgroundColor: '#ADEBB3',
-          color: "#0F4D0F",
-          paddingHorizontal: theme.radius * 1.5,
-          paddingVertical: theme.radius,
-          borderRadius: theme.radius * 2,
-        }} >{discount} % Off</Text>}
+        {discount && <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <Text style={styles.discount} >{discount} % Off</Text>
+        </View>}
       </View>
     </TouchableOpacity>
   );
@@ -54,10 +45,7 @@ export default function ProductsComponent({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: theme.radius * 2,
-    marginVertical: theme.radius,
-    width: Dimensions.get('window').width - theme.radius * 2,
     borderRadius: theme.radius * 2,
   },
   title: {
@@ -66,6 +54,13 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: theme.fontSize.base,
+  },
+  discount: {
+    backgroundColor: '#ADEBB3',
+    color: "#0F4D0F",
+    paddingHorizontal: theme.radius * 1.5,
+    paddingVertical: theme.radius,
+    borderRadius: theme.radius * 2,
   },
   image: {
     width: '100%',

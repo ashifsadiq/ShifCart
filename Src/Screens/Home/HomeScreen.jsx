@@ -5,6 +5,7 @@ import { categoriesData, productsData } from '../../Functions/APIResponses';
 import ProductsComponent from '../../Components/ProductsComponent';
 import theme from '../../config/theme';
 import CategoryLayout from '../Category/CategoryLayout';
+import JustForYou from './JustForYou';
 
 export default function HomeScreen() {
   const isDarkMode = false //useColorScheme() === 'dark';
@@ -50,41 +51,23 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <UserLayout>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <UserLayout
+      style={{
+      }}
+    >
+      <ScrollView showsVerticalScrollIndicator={false} style={{
+        margin: theme.radius,
+      }}>
+        <Text style={[styles.title, ...color]}>Welcome to ShopEasy</Text>
         <CategoryLayout
           onPressCategory={(cat) => getCategoryDataProduct(cat)}
           currentActiveCat={currentActiveCat}
           categoryData={categoryData}
           categoryDataProduct={categoryDataProduct}
           loading={catLoading}
-
         />
-        <Text style={[styles.subtitle, ...color]}>Just For You</Text>
-        <FlatList
-          data={productData}
-          keyExtractor={item => item.id.toString()}
-          numColumns={2}
-          renderItem={({ item, index }) => (
-            <ProductsComponent
-              id={item.id}
-              title={item.title}
-              image={item.image}
-              price={item.price}
-              description={item.description}
-              brand={item.brand}
-              model={item.model}
-              color={item.color}
-              category={item.category}
-              discount={item.discount}
-              customStyle={{
-                marginLeft: index % 2 === 0 ? 0 : theme.radius * 2,
-              }}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<Text>No products available</Text>}
-          contentContainerStyle={productData.length === 0 ? styles.emptyContainer : null}
+        <JustForYou
+          productData={productData}
         />
       </ScrollView>
     </UserLayout>
@@ -92,18 +75,13 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   subtitle: {
     fontSize: theme.fontSize['text-2xl'],
     marginBottom: 10,
     fontWeight: 'bold',
   },
   title: {
-    fontSize: theme.fontSize['text-8xl'],
+    fontSize: theme.fontSize['text-3xl'],
     fontWeight: 'bold',
     marginBottom: theme.radius,
   },

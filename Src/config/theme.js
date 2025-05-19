@@ -1,5 +1,10 @@
+import { Dimensions } from "react-native";
+
 export default {
-    radius: 5,
+    radius: Dimensions.get('window').width * 0.015,
+    screenWidth: Dimensions.get('window').width,
+    screenHeight: Dimensions.get('window').height,
+    screenPadding: Dimensions.get('window').width * 0.05,
     fontSize: {
         "text-xs": 12,
         "text-sm": 14,

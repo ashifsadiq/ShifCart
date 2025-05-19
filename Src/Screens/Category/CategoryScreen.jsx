@@ -37,18 +37,16 @@ export default function CategoryScreen(props) {
     }, [])
     return (
         <UserLayout>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <CategoryLayout
-                    contentContainerStyle={{
-                    }}
-                    categoryData={categoryData}
-                    currentActiveCat={currentActiveCat}
-                    categoryDataProduct={categoryDataProduct}
-                    loading={catLoading}
-                    hideViewAll
-                    onPressCategory={cat => getCategoryDataProduct(cat)}
-                />
-            </ScrollView>
+            <CategoryLayout
+                contentContainerStyle={{
+                }}
+                categoryData={categoryData}
+                currentActiveCat={currentActiveCat}
+                categoryDataProduct={categoryDataProduct}
+                loading={catLoading}
+                hideViewAll
+                onPressCategory={cat => getCategoryDataProduct(cat)}
+            />
         </UserLayout>
     )
 }
