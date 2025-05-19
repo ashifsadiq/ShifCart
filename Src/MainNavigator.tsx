@@ -11,6 +11,9 @@ import CartScreen from './Screens/Cart/CartScreen';
 import ProfileScreen from './Screens/Profile/ProfileScreen';
 import SearchScreen from './Screens/Search/SearchScreen';
 import SearchResultsScreen from './Screens/Search/SearchResultsScreen';
+import {Ionicons} from './Components/CustomIcons';
+import CategoryScreen from './Screens/Category/CategoryScreen';
+import ProductDetails from './Screens/Product/ProductDetails';
 
 // Navigators
 const Stack = createNativeStackNavigator();
@@ -33,8 +36,7 @@ function BottomTabNavigator() {
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
-
-          return <Icon name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: 'green',
         tabBarInactiveTintColor: 'gray',
@@ -49,16 +51,20 @@ function BottomTabNavigator() {
 
 export default function MainNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen
-          name="BottomTabNavigator"
-          component={BottomTabNavigator}
-        />
-        <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen
+            name="BottomTabNavigator"
+            component={BottomTabNavigator}
+          />
+          <Stack.Screen name="Search" component={SearchScreen} />
+          <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
+          <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+          <Stack.Screen name="ProductDetails" component={ProductDetails} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 
