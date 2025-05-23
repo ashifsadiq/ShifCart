@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
 // Screens
 import HomeScreen from './Screens/Home/HomeScreen';
 import WishListScreen from './Screens/WishList/WishListScreen';
@@ -14,12 +13,19 @@ import SearchResultsScreen from './Screens/Search/SearchResultsScreen';
 import {Ionicons} from './Components/CustomIcons';
 import CategoryScreen from './Screens/Category/CategoryScreen';
 import ProductDetails from './Screens/Product/ProductDetails';
+import SQLiteService from './Functions/SQLiteService';
+import theme from './config/theme';
 
 // Navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
+  useEffect(() => {
+    (async () => {
+      await SQLiteService.initDB();
+    })();
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -36,10 +42,11 @@ function BottomTabNavigator() {
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName || ''} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'green',
-        tabBarInactiveTintColor: 'gray',
+        scrollEnabled: true,
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.mutedForeground,
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Wishlist" component={WishListScreen} />

@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export default {
     radius: Dimensions.get('window').width * 0.015,
@@ -84,5 +84,12 @@ export default {
         sidebarAccentForeground: "#fafafa",
         sidebarBorder: "rgba(255, 255, 255, 0.1)",
         sidebarRing: "#fb2c36",
-    }
+    },
+    styles: StyleSheet.create({
+        justifyCen_AlignCen: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+        }
+    })
 }

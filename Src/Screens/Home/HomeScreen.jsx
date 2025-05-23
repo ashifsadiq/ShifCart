@@ -6,6 +6,7 @@ import ProductsComponent from '../../Components/ProductsComponent';
 import theme from '../../config/theme';
 import CategoryLayout from '../Category/CategoryLayout';
 import JustForYou from './JustForYou';
+import NavigationComponent from '../../Components/NavigationComponent';
 
 export default function HomeScreen() {
   const isDarkMode = false //useColorScheme() === 'dark';
@@ -42,7 +43,6 @@ export default function HomeScreen() {
       type: cat,
       limit: 4,
     });
-    console.log(categoryProducts);
     setCategoryDataProduct(categoryProducts);
     setCatLoading(false)
   }
@@ -55,21 +55,23 @@ export default function HomeScreen() {
       style={{
       }}
     >
-      <ScrollView showsVerticalScrollIndicator={false} style={{
-        margin: theme.radius,
-      }}>
-        <Text style={[styles.title, ...color]}>Welcome to ShopEasy</Text>
-        <CategoryLayout
-          onPressCategory={(cat) => getCategoryDataProduct(cat)}
-          currentActiveCat={currentActiveCat}
-          categoryData={categoryData}
-          categoryDataProduct={categoryDataProduct}
-          loading={catLoading}
-        />
-        <JustForYou
-          productData={productData}
-        />
-      </ScrollView>
+      <FlatList
+        data={[
+          <NavigationComponent cantGoBack NavigationTitle={"sdsd"} />,
+          <CategoryLayout
+            onPressCategory={(cat) => getCategoryDataProduct(cat)}
+            currentActiveCat={currentActiveCat}
+            categoryData={categoryData}
+            categoryDataProduct={categoryDataProduct}
+            loading={catLoading}
+          />,
+          <JustForYou
+            productData={productData}
+          />
+        ]}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => item}
+      />
     </UserLayout>
   );
 }

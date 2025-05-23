@@ -16,11 +16,6 @@ export default function JustForYou({
                 data={productData}
                 keyExtractor={item => item.id.toString()}
                 numColumns={1}
-                contentContainerStyle={{
-                    columnGap: theme.radius,
-                    rowGap: theme.radius,
-                    alignItems: "center"
-                }}
                 renderItem={({ item, index }) => (
                     <ProductsComponent
                         id={item.id}
@@ -33,6 +28,10 @@ export default function JustForYou({
                         color={item.color}
                         category={item.category}
                         discount={item.discount}
+                        customStyle={{
+                            marginVertical: theme.radius,
+                            marginHorizontal: theme.radius * 2,
+                        }}
                     />
                 )}
                 showsVerticalScrollIndicator={false}

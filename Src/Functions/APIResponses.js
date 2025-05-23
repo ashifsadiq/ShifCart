@@ -31,7 +31,7 @@ export const categoriesData = async (params = {}) => {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
-export const GetSingleProduct= async (id, params = {}) => {
+export const GetSingleProduct = async (id, params = {}) => {
     const API = `${API_URL}products/${id}?${objectToUrlParams(params)}`
     try {
         const response = await axios.get(API);
@@ -41,5 +41,16 @@ export const GetSingleProduct= async (id, params = {}) => {
         return response.data.product;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+    }
+}
+export async function fetchProducts(productIds, params = {}) {
+    const urls = productIds.map(id => `${API_URL}products/${id}?${objectToUrlParams(params)}`);
+    try {
+        const responses = await Promise.all(urls.map(url => axios.get(url)));
+        const products = await Promise.all(responses.map(res => res.data?.product));
+        console.log(products);
+        return products;
+    } catch (error) {
+        console.error("Error fetching products:", error);
     }
 }
