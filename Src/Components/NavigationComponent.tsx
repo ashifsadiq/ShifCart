@@ -22,7 +22,7 @@ export default function NavigationComponent({
       {!cantGoBack && (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={[styles.marginHorizontal, styles.button]}>
+          style={[styles.button]}>
           <Ionicons name="chevron-back" size={theme.fontSize['text-3xl']} />
         </TouchableOpacity>
       )}
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.fontSize['text-lg'],
   },
   marginHorizontal: {
-    padding: theme.radius,
   },
   button: {},
   navigationTitle: {

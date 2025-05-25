@@ -96,7 +96,10 @@ const SQLiteService = {
         return result.length ? result[0] : null;
     },
     getCartItems: async () => {
-        const query = `SELECT * FROM cart;`;
+        const query = `
+            SELECT *, (SELECT SUM(product_qty) FROM cart) as total_qty
+            FROM cart;
+        `;
         return await SQLiteService.executeQuery(query);
     },
     toggleFavorite: async (productId) => {

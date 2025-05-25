@@ -14,21 +14,27 @@ export default function CartScreen() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [cartQty, setCartQty] = useState([]);
+  const [totalCartNos, setTotalCartNos] = useState(null)
+  const [totalCartPrice, setTotalCartPrice] = useState(0);
   const getData = async () => {
     setIsLoading(true);
     const getCartItems = await SQLiteService.getCartItems();
     setCartQty(getCartItems.map(item => item.product_qty));
     if (Array.isArray(getCartItems)) {
+      const total = getCartItems.map(item => item.product_qty).reduce((x, y) => x + y)
+      setTotalCartNos(total)
       const products = await fetchProducts(
         getCartItems.map(item => item.product_id),
       );
-      Array.isArray(products) && setProducts([...products]);
+      if (Array.isArray(products)) {
+        products.map((item, index) => setTotalCartPrice(old => old + (cartQty[index] * item.price?.toFixed(2))))
+        setProducts([...products])
+      };
     }
     setIsLoading(false);
   };
   const addToCart = async (id) => {
-    const item = await SQLiteService.addToCart(id);
-    getData()
+    const item = await SQLiteService.addToCart(id); getData()
   };
   const removeFromCart = async (id) => {
     const item = await SQLiteService.removeFromCart(id); getData()
@@ -55,6 +61,7 @@ export default function CartScreen() {
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item, index }) => (
           <ProductListComponent
+            qtyLoading={isLoading}
             item={item}
             isFav={item.isFav}
             setIsFav={async () => {
@@ -74,6 +81,10 @@ export default function CartScreen() {
         )}
       />
       {Array.isArray(products) && products.length > 0 && <View style={styles.proceedToCheckOutContainer}>
+        <View>
+          <Text style={styles.bottomPrice}>₹{totalCartPrice.toLocaleString()}</Text>
+          <Text style={styles.bottomQty}>{totalCartNos} Nos.</Text>
+        </View>
         <TouchableOpacity style={styles.proceedToCheckOutButton}>
           <Text style={styles.proceedToCheckOutText}>Proceed To Checkout</Text>
         </TouchableOpacity>
@@ -88,18 +99,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexShrink: 1,
     flexBasis: 'auto',
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: theme.fontSize['text-xs'],
+    paddingVertical: theme.fontSize['text-xs'],
   },
   proceedToCheckOutButton: {
     backgroundColor: theme.primary,
-    borderRadius: theme.radius * 2,
-    paddingVertical: theme.fontSize['text-xs'],
+    borderRadius: theme.radius,
     paddingHorizontal: theme.radius * 1.5,
-    margin: theme.radius * 1.5,
-    marginHorizontal: "auto"
+    paddingVertical: theme.fontSize['text-xs'] / 2,
   },
   proceedToCheckOutText: {
     fontSize: theme.fontSize['text-xl'],
     fontWeight: 'bold',
     color: theme.card,
-  }
+  },
+  bottomPrice: {
+    fontSize: theme.fontSize['text-2xl'],
+    fontWeight: 'bold',
+    color: theme.primary,
+  },
+  bottomQty: {
+    fontSize: theme.fontSize['text-base'],
+    fontWeight: 'bold',
+    color: theme.foreground,
+  },
 });

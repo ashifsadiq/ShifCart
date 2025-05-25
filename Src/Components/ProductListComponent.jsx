@@ -42,9 +42,10 @@ function ProductListComponent(
                 </View>
                 {qty && <View style={{
                     ...styles.addToCartButton,
-                    justifyContent: 'space-between',
+                    justifyContent: 'flex-start',
                     backgroundColor: "transparent",
-                    maxWidth: "50%"
+                    maxWidth: "50%",
+                    columnGap: theme.fontSize['text-base']
                     // width: screenWidth / 2.5,
                     // opacity: addLoading ? 0.5 : 1,
                 }} >
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
     },
     addToCartButton: {
         backgroundColor: theme.primary,
-        paddingHorizontal: theme.radius * 1.5,
         paddingVertical: theme.fontSize['text-xs'],
         borderRadius: theme.radius,
         alignItems: 'center',
