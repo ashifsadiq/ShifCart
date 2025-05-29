@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { ActionSheetIOS, ActivityIndicator, FlatList, RefreshControl, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import React, { useEffect, useState } from 'react'; // ❌ removed "use"
 import UserLayout from '../../Layouts/UserLayout';
 import { categoriesData, productsData } from '../../Functions/APIResponses';
@@ -7,6 +7,7 @@ import theme from '../../config/theme';
 import CategoryLayout from '../Category/CategoryLayout';
 import JustForYou from './JustForYou';
 import NavigationComponent from '../../Components/NavigationComponent';
+import HomeCarousel from './HomeCarousel';
 
 export default function HomeScreen() {
   const isDarkMode = false //useColorScheme() === 'dark';
@@ -56,8 +57,17 @@ export default function HomeScreen() {
       }}
     >
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={catLoading}
+            onRefresh={fetchData}
+            colors={['#0000ff']} // Android only: set refresh indicator color
+            tintColor={'#0000ff'} // iOS only: set refresh indicator color
+          />
+        }
         data={[
-          <NavigationComponent cantGoBack NavigationTitle={"sdsd"} />,
+          <NavigationComponent cantGoBack NavigationTitle={"Welcome Back Ashif!"} />,
+          <HomeCarousel />,
           <CategoryLayout
             onPressCategory={(cat) => getCategoryDataProduct(cat)}
             currentActiveCat={currentActiveCat}

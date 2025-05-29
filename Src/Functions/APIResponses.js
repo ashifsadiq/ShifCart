@@ -54,3 +54,12 @@ export async function fetchProducts(productIds, params = {}) {
         console.error("Error fetching products:", error);
     }
 }
+
+export async function randomUserData(params = {}) {
+    try {
+        const response = await axios.get('https://randomuser.me/api/')
+        return (response).data?.results[0]
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}

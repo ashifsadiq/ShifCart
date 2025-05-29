@@ -37,6 +37,11 @@ const SQLiteService = {
         );`,
             `CREATE TABLE IF NOT EXISTS favorites (
             product_id INT PRIMARY KEY
+        );`,
+            `CREATE TABLE IF NOT EXISTS orders (
+            order_id INT PRIMARY KEY,
+            order_count INT NOT NULL CHECK (order_count > 0),
+            order_price INT NOT NULL CHECK (order_price > 0)
         );`
         ];
         await Promise.all(query.map(q => database.executeSql(q)));

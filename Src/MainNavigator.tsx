@@ -15,6 +15,8 @@ import CategoryScreen from './Screens/Category/CategoryScreen';
 import ProductDetails from './Screens/Product/ProductDetails';
 import SQLiteService from './Functions/SQLiteService';
 import theme from './config/theme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CheckOut from './Screens/CheckOut/CheckOut';
 
 // Navigators
 const Stack = createNativeStackNavigator();
@@ -58,7 +60,7 @@ function BottomTabNavigator() {
 
 export default function MainNavigator() {
   return (
-    <>
+    <GestureHandlerRootView>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
@@ -69,9 +71,10 @@ export default function MainNavigator() {
           <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
           <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
+          <Stack.Screen name="CheckOut" component={CheckOut} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </GestureHandlerRootView>
   );
 }
 
