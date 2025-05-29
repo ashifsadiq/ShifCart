@@ -13,12 +13,14 @@ export default function HomeScreen() {
   const isDarkMode = false //useColorScheme() === 'dark';
   const color = isDarkMode ? theme.foreground : theme.dark.foreground
   styles.title
+  const [carouselImg, setCarouselImg] = useState([])
   const [productData, setProductData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [categoryDataProduct, setCategoryDataProduct] = useState([]);
   const [currentActiveCat, setCurrentActiveCat] = useState('')
   const [catLoading, setCatLoading] = useState(false)
   const fetchData = async () => {
+    setCatLoading(true)
     try {
       setProductData(await productsData({ limit: 4 }));
       const cat = await categoriesData()
@@ -33,8 +35,13 @@ export default function HomeScreen() {
         setCurrentActiveCat(randomElement);
         setCategoryDataProduct(categoryProducts);
       }
+      setCarouselImg([...Array.from({ length: 10 }, (_, index) => `https://picsum.photos/1200/627.jpg?random=${index}`)]);
     } catch (error) {
       console.log('Error fetching products:15', error);
+    } finally {
+      setTimeout(() => {
+        setCatLoading(false)
+      }, 1000);
     }
   };
   const getCategoryDataProduct = async (cat) => {
@@ -45,7 +52,9 @@ export default function HomeScreen() {
       limit: 4,
     });
     setCategoryDataProduct(categoryProducts);
-    setCatLoading(false)
+    setTimeout(() => {
+      setCatLoading(false)
+    }, 1000);
   }
   useEffect(() => {
     fetchData();
@@ -61,13 +70,13 @@ export default function HomeScreen() {
           <RefreshControl
             refreshing={catLoading}
             onRefresh={fetchData}
-            colors={['#0000ff']} // Android only: set refresh indicator color
-            tintColor={'#0000ff'} // iOS only: set refresh indicator color
+            colors={[theme.primary]} // Android only: set refresh indicator color
+            tintColor={theme.primary} // iOS only: set refresh indicator color
           />
         }
         data={[
           <NavigationComponent cantGoBack NavigationTitle={"Welcome Back Ashif!"} />,
-          <HomeCarousel />,
+          <HomeCarousel carouselImg={carouselImg} />,
           <CategoryLayout
             onPressCategory={(cat) => getCategoryDataProduct(cat)}
             currentActiveCat={currentActiveCat}

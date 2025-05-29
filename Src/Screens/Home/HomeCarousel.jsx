@@ -5,7 +5,7 @@ import Carousel from "react-native-reanimated-carousel";
 import theme from '../../config/theme';
 const carousel = theme.screenWidth;
 
-const HomeCarousel = () => {
+const HomeCarousel = ({ carouselImg }) => {
   // theme.screenWidth
   const [data, setData] = useState([...Array.from({ length: 10 }, (_, index) => `https://picsum.photos/1200/627.jpg?random=${index}`)])
   const progress = useSharedValue(0);
@@ -20,7 +20,7 @@ const HomeCarousel = () => {
       <Carousel
         autoPlayInterval={2000}
         autoPlay={true}
-        data={data}
+        data={carouselImg}
         height={"auto"}
         loop={true}
         pagingEnabled={true}
@@ -45,7 +45,7 @@ const HomeCarousel = () => {
 export default HomeCarousel
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     paddingHorizontal: theme.radius * 2,
   },
   image: {

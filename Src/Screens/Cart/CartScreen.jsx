@@ -101,7 +101,7 @@ export default function CartScreen() {
       <FlatList
         data={products}
         ListEmptyComponent={
-          isLoading ? <WishListLoadingComponent /> : <WishListEmptyComponent />
+          isLoading ? <WishListLoadingComponent /> : <WishListEmptyComponent message='Nothing in our cart!' />
         }
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item, index }) => (
