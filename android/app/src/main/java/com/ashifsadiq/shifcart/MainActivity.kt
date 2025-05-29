@@ -1,4 +1,4 @@
-package com.shifcart
+package com.ashifsadiq.shifcart
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity
