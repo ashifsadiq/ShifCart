@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -15,7 +15,7 @@ import CategoryScreen from './Screens/Category/CategoryScreen';
 import ProductDetails from './Screens/Product/ProductDetails';
 import SQLiteService from './Functions/SQLiteService';
 import theme from './config/theme';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CheckOut from './Screens/CheckOut/CheckOut';
 
 // Navigators
@@ -23,6 +23,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
+  const isDarkMode = useColorScheme() != 'dark';
   useEffect(() => {
     (async () => {
       await SQLiteService.initDB();
@@ -31,6 +32,7 @@ function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        tabBarStyle: {backgroundColor: isDarkMode ? '#fff' : '#000'},
         headerShown: false,
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -48,7 +50,9 @@ function BottomTabNavigator() {
         },
         scrollEnabled: true,
         tabBarActiveTintColor: theme.primary,
-        tabBarInactiveTintColor: theme.mutedForeground,
+        tabBarInactiveTintColor: isDarkMode
+          ? theme.dark.mutedForeground
+          : theme.mutedForeground,
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Wishlist" component={WishListScreen} />
