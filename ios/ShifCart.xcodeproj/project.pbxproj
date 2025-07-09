@@ -260,8 +260,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAZUS6S8A5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ShifCart/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -288,7 +290,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MAZUS6S8A5;
 				INFOPLIST_FILE = ShifCart/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

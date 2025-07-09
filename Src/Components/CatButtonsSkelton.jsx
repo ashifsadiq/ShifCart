@@ -7,7 +7,8 @@ export default function CatButtonsSkelton() {
     return (
         <SkeletonPlaceholder borderRadius={4} >
             <SkeletonPlaceholder.Item flexDirection="row" justifyContent='center'>
-                {Array(5).fill(0).map(() => <SkeletonPlaceholder.Item
+                {Array(5).fill(0).map((_, i) => <SkeletonPlaceholder.Item
+                    key={i.toString()}
                     width={theme.radius * 15}
                     height={theme.radius * 5}
                     marginLeft={theme.radius * 2}

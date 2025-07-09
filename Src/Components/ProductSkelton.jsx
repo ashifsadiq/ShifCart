@@ -7,7 +7,8 @@ export default function ProductSkelton() {
     return (
         <SkeletonPlaceholder borderRadius={4} >
             <SkeletonPlaceholder.Item justifyContent='center'>
-                {Array(5).fill(0).map(() => <SkeletonPlaceholder.Item
+                {Array(5).fill(0).map((_,i) => <SkeletonPlaceholder.Item
+                key={i.toString()}
                     width={Dimensions.get("window").width * 0.9}
                     height={Dimensions.get("window").width * 0.9}
                     margin={theme.radius * 2}
