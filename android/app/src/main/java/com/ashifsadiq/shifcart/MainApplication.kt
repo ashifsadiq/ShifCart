@@ -1,4 +1,4 @@
-package com.shifcart
+package com.ashifsadiq.shifcart
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -49,6 +49,7 @@ function CategoryLayout({
                         horizontal
                         style={{ flexGrow: 0, columnGap: 10, paddingHorizontal: theme.radius }}
                         contentContainerStyle={{
+                            paddingHorizontal: theme.radius,
                             columnGap: 10,
                             ...styles.section,
                             ...contentContainerStyle,
@@ -67,11 +68,6 @@ function CategoryLayout({
                     categoryDataProduct.length ? <FlatList
                         data={categoryDataProduct ?? []}
                         keyExtractor={(item, index) => index.toString()}
-                        contentContainerStyle={{
-                            columnGap: theme.radius,
-                            rowGap: theme.radius * 2,
-                            alignItems: "center",
-                        }}
                         renderItem={({ item, index }) => (
                             <ProductsComponent
                                 id={item?.id}
@@ -97,10 +93,6 @@ function CategoryLayout({
             }
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => item}
-            contentContainerStyle={{
-                columnGap: theme.radius,
-                rowGap: theme.radius * 2,
-            }}
             showsVerticalScrollIndicator={false}
         />
     </View>
