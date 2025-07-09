@@ -49,6 +49,7 @@ export default TextUI;
 const styles = StyleSheet.create({
   textStyles: {
     fontSize: theme.fontSize['text-base'],
+    fontWeight: '400',
     lineHeight: 20,
   },
 });

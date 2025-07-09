@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, useColorScheme} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -17,6 +17,8 @@ import SQLiteService from './Functions/SQLiteService';
 import theme from './config/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CheckOut from './Screens/CheckOut/CheckOut';
+import screenNames from './config/screenNames';
+import LoginScreen from './Screens/Auth/Login/LoginScreen';
 
 // Navigators
 const Stack = createNativeStackNavigator();
@@ -37,15 +39,15 @@ function BottomTabNavigator() {
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === screenNames.HomeTab) {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Wishlist') {
+          } else if (route.name === screenNames.WishlistTab) {
             iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Cart') {
+          } else if (route.name === screenNames.CartTab) {
             iconName = focused ? 'cart' : 'cart-outline';
-          } else if (route.name === 'Profile') {
+          } else if (route.name === screenNames.ProfileTab) {
             iconName = focused ? 'person' : 'person-outline';
-          }
+          } else iconName = 'home';
           return <Ionicons name={iconName || ''} size={size} color={color} />;
         },
         scrollEnabled: true,
@@ -54,30 +56,42 @@ function BottomTabNavigator() {
           ? theme.dark.mutedForeground
           : theme.mutedForeground,
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Wishlist" component={WishListScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      {/* <Tab.Screen name="Profile" component={ProfileScreen} /> */}
+      <Tab.Screen name={screenNames.HomeTab} component={HomeScreen} />
+      <Tab.Screen name={screenNames.WishlistTab} component={WishListScreen} />
+      <Tab.Screen name={screenNames.CartTab} component={CartScreen} />
+      <Tab.Screen name={screenNames.ProfileTab} component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
 
 export default function MainNavigator() {
+  const Screens = [
+    [screenNames.BottomTabNavigator, BottomTabNavigator],
+    [screenNames.Search, SearchScreen],
+    [screenNames.SearchResults, SearchResultsScreen],
+    [screenNames.CategoryScreen, CategoryScreen],
+    [screenNames.ProductDetails, ProductDetails],
+    [screenNames.CheckOut, CheckOut],
+    [screenNames.LoginScreen, LoginScreen],
+  ];
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen
-            name="BottomTabNavigator"
-            component={BottomTabNavigator}
-          />
-          <Stack.Screen name="Search" component={SearchScreen} />
-          <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
-          <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
-          <Stack.Screen name="ProductDetails" component={ProductDetails} />
-          <Stack.Screen name="CheckOut" component={CheckOut} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView
+        style={{
+          flex: 1,
+        }}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            {Screens.map((screen, screenIndex) => (
+              <Stack.Screen
+                key={screenIndex.toString()}
+                name={screen[0]}
+                component={screen[1]}
+              />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 }
