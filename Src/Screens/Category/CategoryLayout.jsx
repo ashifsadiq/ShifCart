@@ -6,6 +6,8 @@ import { AntDesign } from '../../Components/CustomIcons'
 import { useNavigation } from '@react-navigation/native'
 import CatButtonsSkelton from '../../Components/CatButtonsSkelton'
 import ProductSkelton from '../../Components/ProductSkelton'
+import H2 from '../../Components/ui/H2'
+import H3 from '../../Components/ui/H3'
 
 function CategoryLayout({
     categoryData = [],
@@ -23,7 +25,7 @@ function CategoryLayout({
             data={
                 [
                     <View style={styles.header}>
-                        <Text style={styles.subtitle}>Categories</Text>
+                        <H2>Categories</H2>
                         {!hideViewAll && <TouchableOpacity
                             style={{
                                 flexDirection: 'row',
@@ -38,7 +40,7 @@ function CategoryLayout({
                                     categoryData,
                                 })
                             }} >
-                            <Text style={{ fontSize: theme.fontSize['text-xl'] }}>View All</Text>
+                            <H2>View All</H2>
                             <AntDesign color={theme.primary} name="rightcircle" size={theme.fontSize['text-2xl']} />
                         </TouchableOpacity>}
                     </View>,
@@ -61,7 +63,7 @@ function CategoryLayout({
                             }]}
                                 onPress={() => onPressCategory(item)}
                             >
-                                <Text style={styles.categoryText} >{item}</Text>
+                                <H3 style={styles.categoryText} >{item}</H3>
                             </TouchableOpacity>
                         )}
                     /> : <CatButtonsSkelton />,
@@ -123,7 +125,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     categoryText: {
-        fontSize: theme.fontSize['text-sm'],
         color: theme.primary,
         textAlign: "center",
         textTransform: "capitalize"

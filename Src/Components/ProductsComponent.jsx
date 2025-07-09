@@ -2,6 +2,7 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, useColorScheme, 
 import React from 'react';
 import theme from '../config/theme';
 import { useNavigation } from '@react-navigation/native';
+import TextUI from './ui/TextUI';
 
 export default function ProductsComponent({
   id,
@@ -11,8 +12,8 @@ export default function ProductsComponent({
   discount,
   customStyle = {},
 }) {
-  const isDarkMode = false //useColorScheme() != 'dark';
-  const backgroundColor = isDarkMode ? theme.dark.card : theme.card;
+  const isDarkMode = useColorScheme() != 'dark';
+  const backgroundColor = !isDarkMode ? theme.dark.card : theme.card;
   const fontColor = isDarkMode ? theme.muted : theme.dark.muted;
   const screenHeight = Dimensions.get('window').height;
   const navigation = useNavigation();
@@ -25,18 +26,18 @@ export default function ProductsComponent({
           objectFit: "contain",
         }]}
       />
-      <Text numberOfLines={2} style={[{ ...styles.title }, styles.title]}>{title}</Text>
+      <TextUI numberOfLines={2}>{title}</TextUI>
       <View style={styles.priceSection}>
         <View style={{
           flexDirection: 'row',
           alignItems: 'center',
           columnGap: theme.radius,
         }} >
-          <Text numberOfLines={2} style={[{ textDecorationLine: "line-through", fontSize: theme.fontSize['text-sm'] }]}>₹{price + ((price / 100) * 3)}</Text>
-          <Text numberOfLines={2} style={[{ ...styles.price }]}>₹{price}.00</Text>
+          <TextUI numberOfLines={2} style={[{ textDecorationLine: "line-through" }]}>₹{price + ((price / 100) * 3)}</TextUI>
+          <TextUI numberOfLines={2} style={[{ ...styles.price }]}>₹{price}.00</TextUI>
         </View>
         {discount && <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          <Text style={styles.discount} >{discount} % Off</Text>
+          <TextUI style={styles.discount} >{discount} % Off</TextUI>
         </View>}
       </View>
     </TouchableOpacity>
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
   container: {
     padding: theme.radius * 2,
     borderRadius: theme.radius * 2,
+    rowGap: theme.radius
   },
   title: {
     fontSize: theme.fontSize['xs'],
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius * 2,
   },
   price: {
-    fontSize: theme.fontSize['text-lg'],
+    fontSize: theme.fontSize['text-xl'],
     fontWeight: 'bold',
   },
   priceSection: {

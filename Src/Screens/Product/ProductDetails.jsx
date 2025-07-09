@@ -16,6 +16,9 @@ import theme from '../../config/theme';
 import NavigationComponent from '../../Components/NavigationComponent';
 import { AntDesign } from '../../Components/CustomIcons';
 import SQLiteService from '../../Functions/SQLiteService';
+import TextUI from '../../Components/ui/TextUI';
+import H1 from '../../Components/ui/H1';
+import H2 from '../../Components/ui/H2';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -86,8 +89,8 @@ export default function ProductDetails({ route }) {
                         paddingHorizontal: theme.radius * 1.5,
                     }}>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.strikePrice}>₹{discountPrice.toFixed(2)}</Text>
-                            <Text style={styles.price}>₹{productData.price?.toFixed(2)}</Text>
+                            <TextUI style={styles.strikePrice}>₹{discountPrice.toFixed(2)}</TextUI>
+                            <H1 style={styles.price}>₹{productData.price?.toFixed(2)}</H1>
                         </View>
                         <TouchableOpacity onPress={toggleFavorite} >
                             {isFav ? <AntDesign name='heart' size={theme.fontSize['text-3xl']} color={theme.primary} /> : <AntDesign name='hearto' size={theme.fontSize['text-3xl']} color={theme.primary} />}
@@ -101,16 +104,14 @@ export default function ProductDetails({ route }) {
                         contentContainerStyle={styles.detailsList}
                         renderItem={({ item }) => (
                             <View style={styles.detailItem}>
-                                <Text style={styles.detailTitle}>{item.title}: </Text>
-                                <Text style={styles.detailValue}>{item.value}</Text>
+                                <TextUI style={styles.detailTitle}>{item.title}: </TextUI>
+                                <TextUI style={styles.detailValue}>{item.value}</TextUI>
                             </View>
                         )}
-                        ListEmptyComponent={<Text>No product details available</Text>}
+                        ListEmptyComponent={<H1>No product details available</H1>}
                     />,
-                    <Text style={styles.title}>{productData.title}</Text>,
-                    <Text style={styles.description}>{productData.description}</Text>,
-                    <View style={styles.content}>
-                    </View>
+                    <H1 style={styles.title}>{productData.title}</H1>,
+                    <TextUI style={styles.description}>{productData.description}</TextUI>,
                 ]}
                 keyExtractor={(_, i) => i.toString()}
                 showsVerticalScrollIndicator={false}
@@ -126,7 +127,7 @@ export default function ProductDetails({ route }) {
                     {addLoading ? (
                         <ActivityIndicator size="small" color={theme.dark.foreground} />
                     ) : (
-                        <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+                        <H2 style={styles.addToCartButtonText}>Add to Cart</H2>
                     )}
                 </TouchableOpacity>
                     :
@@ -143,7 +144,7 @@ export default function ProductDetails({ route }) {
                         >
                             <Text><AntDesign size={styles.addToCartButtonText.fontSize} name='minus' /></Text>
                         </TouchableOpacity>
-                        <Text style={[styles.addToCartButtonText, { color: theme.foreground }]}>{currentCount}</Text>
+                        <H2 style={[styles.addToCartButtonText, { color: theme.foreground }]}>{currentCount}</H2>
                         <TouchableOpacity
                             disabled={addLoading}
                             onPress={addToCart}
@@ -177,12 +178,8 @@ const styles = StyleSheet.create({
     },
     strikePrice: {
         textDecorationLine: 'line-through',
-        fontSize: theme.fontSize['text-sm'],
-        color: theme.foreground,
     },
     price: {
-        fontSize: theme.fontSize['text-2xl'],
-        fontWeight: 'bold',
         color: theme.primary,
     },
     detailsList: {
@@ -198,25 +195,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     detailTitle: {
-        fontSize: theme.fontSize['text-base'],
         color: theme.foreground,
         textTransform: 'capitalize',
     },
     detailValue: {
-        fontSize: theme.fontSize['text-lg'],
         color: theme.primary,
-        fontWeight: 'bold',
         textTransform: 'capitalize',
     },
     title: {
-        fontSize: theme.fontSize['text-2xl'],
-        fontWeight: 'bold',
         paddingHorizontal: theme.radius * 1.5
     },
     description: {
-        fontSize: theme.fontSize['text-sm'],
-        color: theme.foreground,
-        lineHeight: 20,
         paddingHorizontal: theme.radius * 1.5
     },
     bottomBar: {
@@ -246,7 +235,5 @@ const styles = StyleSheet.create({
     },
     addToCartButtonText: {
         color: theme.dark.foreground,
-        fontSize: theme.fontSize['text-xl'],
-        fontWeight: '600',
     },
 });

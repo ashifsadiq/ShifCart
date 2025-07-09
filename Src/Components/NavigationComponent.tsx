@@ -10,10 +10,11 @@ import React from 'react';
 import theme from '../config/theme';
 import {Ionicons} from './CustomIcons';
 import {useNavigation} from '@react-navigation/native';
+import H1 from './ui/H1';
 
 export default function NavigationComponent({
   cantGoBack = false,
-  NavigationTitle = "",
+  NavigationTitle = '',
   contentContainerStyle = {},
 }) {
   const navigation = useNavigation();
@@ -26,9 +27,7 @@ export default function NavigationComponent({
           <Ionicons name="chevron-back" size={theme.fontSize['text-3xl']} />
         </TouchableOpacity>
       )}
-      {NavigationTitle && (
-        <Text style={styles.navigationTitle}>{NavigationTitle}</Text>
-      )}
+      {NavigationTitle && <H1>{NavigationTitle}</H1>}
     </View>
   );
 }
@@ -40,11 +39,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: theme.fontSize['text-lg'],
   },
-  marginHorizontal: {
-  },
+  marginHorizontal: {},
   button: {},
   navigationTitle: {
-    fontSize: theme.fontSize['text-2xl'],
     fontWeight: '600',
   },
 });

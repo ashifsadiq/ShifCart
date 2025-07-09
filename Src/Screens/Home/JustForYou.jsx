@@ -2,6 +2,8 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import theme from '../../config/theme'
 import ProductsComponent from '../../Components/ProductsComponent'
+import TextUI from '../../Components/ui/TextUI'
+import H2 from '../../Components/ui/H2'
 
 export default function JustForYou({
     productData = []
@@ -10,8 +12,10 @@ export default function JustForYou({
     const color = isDarkMode ? theme.foreground : theme.dark.foreground
     styles.title
     if (productData.length > 0) return (
-        <>
-            <Text style={[styles.subtitle, ...color]}>Just For You</Text>
+        <View style={{
+            padding: 15
+        }}>
+            <H2>Just For You</H2>
             <FlatList
                 data={productData}
                 keyExtractor={item => item.id.toString()}
@@ -37,7 +41,7 @@ export default function JustForYou({
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={<Text>No products available</Text>}
             />
-        </>
+        </View>
     )
 }
 
