@@ -18,14 +18,53 @@ import TextInputComponent from '../../../Components/ui/TextInputComponent';
 import {Ionicons} from '../../../Components/CustomIcons';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import assets from '../../../Assets/assets';
+import APIService from '../../../Functions/APIResponses';
+import SQLiteService from '../../../Functions/SQLiteService';
+import {useNavigation} from '@react-navigation/native';
 
 export default function LoginScreen() {
+  const navigation = useNavigation();
   const isDarkMode = useColorScheme() === 'dark';
+  const [fetchingData, setFetchingData] = useState(false);
   const [isEyeView, setIsEyeView] = useState(false);
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
+    email: 'george25@example.org',
+    password: 'password',
   });
+  const login = async () => {
+    try {
+      // Call API to log in
+      const res = await APIService.auth.login(loginData);
+
+      // Ensure response has required fields
+      if (!res?.user || !res?.token) {
+        throw new Error('Invalid response from server');
+      }
+
+      const user = res.user;
+
+      // Insert user into SQLite and mark as active
+      const sql = await SQLiteService.loginUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        picture: user.picture,
+        role: user.role,
+        token: res.token,
+      })
+        .then(sql => {
+          navigation.goBack();
+          console.log('Login successful and user saved locally:', user, {sql});
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } catch (error) {
+      console.error('Login failed:', error.message || error);
+      // Optionally show toast/snackbar to user
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -77,12 +116,17 @@ export default function LoginScreen() {
 
           <ButtonUi
             pressableProps={{
-              disabled: true,
+              disabled: fetchingData,
+              onPress: () => {
+                login();
+              },
             }}
-            childrenComponent={<ActivityIndicator color={theme.card} />}
+            childrenComponent={
+              fetchingData && <ActivityIndicator color={theme.card} />
+            }
             contentContainerStyle={{
               width: 'auto',
-              opacity: 0.5,
+              opacity: fetchingData ? 0.5 : 1,
             }}>
             Login
           </ButtonUi>

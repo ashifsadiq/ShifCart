@@ -59,7 +59,7 @@ export default function ProfileScreen() {
         <ButtonUi
           pressableProps={{
             onPress: () => {
-              navigation.replace(screenNames.LoginScreen);
+              navigation.navigate(screenNames.LoginScreen, {});
             },
           }}
           contentContainerStyle={{
@@ -76,6 +76,7 @@ export default function ProfileScreen() {
       <H1>Welcome, {userData?.name || 'User'}!</H1>
       <TextUI>Email: {userData?.email}</TextUI>
       <TextUI>Role: {userData?.role}</TextUI>
+      <TextUI>{JSON.stringify(userData)}</TextUI>
     </UserLayout>
   );
 }

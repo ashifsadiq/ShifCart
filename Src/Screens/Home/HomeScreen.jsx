@@ -1,11 +1,9 @@
-import { ActionSheetIOS, ActivityIndicator, FlatList, RefreshControl, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { FlatList, RefreshControl, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import React, { useEffect, useState } from 'react'; // ❌ removed "use"
 import UserLayout from '../../Layouts/UserLayout';
-import { categoriesData, productsData } from '../../Functions/APIResponses';
-import ProductsComponent from '../../Components/ProductsComponent';
+import APIService, { categoriesData, productsData } from '../../Functions/APIResponses';
 import theme from '../../config/theme';
 import CategoryLayout from '../Category/CategoryLayout';
-import JustForYou from './JustForYou';
 import NavigationComponent from '../../Components/NavigationComponent';
 import HomeCarousel from './HomeCarousel';
 
@@ -19,31 +17,10 @@ export default function HomeScreen() {
   const [categoryDataProduct, setCategoryDataProduct] = useState([]);
   const [currentActiveCat, setCurrentActiveCat] = useState('')
   const [catLoading, setCatLoading] = useState(false)
-  const fetchData = async () => {
-    setCatLoading(true)
-    try {
-      setProductData(await productsData({ limit: 4 }));
-      const cat = await categoriesData()
-      setCategoryData(cat);
-      if (cat.length > 0) {
-        const randomIndex = Math.floor(Math.random() * cat.length);
-        const randomElement = cat[randomIndex];
-        const categoryProducts = await categoriesData({
-          type: randomElement,
-          limit: 4,
-        });
-        setCurrentActiveCat(randomElement);
-        setCategoryDataProduct(categoryProducts);
-      }
-      setCarouselImg([...Array.from({ length: 10 }, (_, index) => `https://picsum.photos/1200/627.jpg?random=${index}`)]);
-    } catch (error) {
-      console.log('Error fetching products:15', error);
-    } finally {
-      setTimeout(() => {
-        setCatLoading(false)
-      }, 1000);
-    }
-  };
+  const fetchProducts = async () => {
+    const products = await APIService.products.all().then((res) => setProductData(res.data));
+    console.log(JSON.stringify(products, null, 2));
+  }
   const getCategoryDataProduct = async (cat) => {
     setCurrentActiveCat(cat);
     setCatLoading(true)
@@ -57,7 +34,7 @@ export default function HomeScreen() {
     }, 1000);
   }
   useEffect(() => {
-    fetchData();
+    fetchProducts()
   }, []);
 
   return (
@@ -69,7 +46,7 @@ export default function HomeScreen() {
         refreshControl={
           <RefreshControl
             refreshing={catLoading}
-            onRefresh={fetchData}
+            onRefresh={fetchProducts}
             colors={[theme.primary]} // Android only: set refresh indicator color
             tintColor={theme.primary} // iOS only: set refresh indicator color
           />
@@ -81,11 +58,8 @@ export default function HomeScreen() {
             onPressCategory={(cat) => getCategoryDataProduct(cat)}
             currentActiveCat={currentActiveCat}
             categoryData={categoryData}
-            categoryDataProduct={categoryDataProduct}
+            categoryDataProduct={productData}
             loading={catLoading}
-          />,
-          <JustForYou
-            productData={productData}
           />
         ]}
         keyExtractor={(item, index) => index.toString()}

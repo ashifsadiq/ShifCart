@@ -137,6 +137,15 @@ const SQLiteService = {
     getActiveUser: async () => {
         const query = `SELECT * FROM ${tableName.users} WHERE active = 1;`;
         return await SQLiteService.executeQuery(query);
+    },
+    loginUser: async ({ id, name, email, picture, role, token }) => {
+        const query_1 = `UPDATE ${tableName.users} SET active = 0;`;
+        await SQLiteService.executeQuery(query_1);
+        const query_2 = `INSERT OR REPLACE INTO ${tableName.users} (id, name, email, picture, role, last_used, token, active) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, 1);`
+        const result = await SQLiteService.executeQuery(query_2, [
+            id, name, email, picture, role, token
+        ]);
+        return result;
     }
 
 };

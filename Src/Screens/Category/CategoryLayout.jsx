@@ -8,6 +8,7 @@ import CatButtonsSkelton from '../../Components/CatButtonsSkelton'
 import ProductSkelton from '../../Components/ProductSkelton'
 import H2 from '../../Components/ui/H2'
 import H3 from '../../Components/ui/H3'
+import TextUI from '../../Components/ui/TextUI'
 
 function CategoryLayout({
     categoryData = [],
@@ -44,7 +45,7 @@ function CategoryLayout({
                             <AntDesign color={theme.primary} name="rightcircle" size={theme.fontSize['text-2xl']} />
                         </TouchableOpacity>}
                     </View>,
-                    categoryData.length ? <FlatList
+                    <FlatList
                         data={categoryData}
                         ref={categoryListRef}
                         keyExtractor={(item, index) => index.toString()}
@@ -66,16 +67,17 @@ function CategoryLayout({
                                 <H3 style={styles.categoryText} >{item}</H3>
                             </TouchableOpacity>
                         )}
-                    /> : <CatButtonsSkelton />,
-                    categoryDataProduct.length ? <FlatList
+                    />,
+                    <FlatList
                         data={categoryDataProduct ?? []}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
                             <ProductsComponent
                                 id={item?.id}
-                                title={item?.title}
+                                title={item?.name}
                                 image={item?.image}
                                 price={item?.price}
+                                mrp={item?.mrp}
                                 description={item?.description}
                                 brand={item?.brand}
                                 model={item?.model}
@@ -90,7 +92,7 @@ function CategoryLayout({
                         )}
                         showsVerticalScrollIndicator={false}
                         ListEmptyComponent={<Text>No products available</Text>}
-                    /> : <ProductSkelton />
+                    />
                 ]
             }
             keyExtractor={(item, index) => index.toString()}

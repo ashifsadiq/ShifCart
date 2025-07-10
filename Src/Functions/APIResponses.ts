@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { API_URL } from '../config/defaults';
-function objectToUrlParams(obj) {
+import { API_URL, DEV_API_URL } from '../config/defaults';
+import { apiGet, apiPost } from '../utils/http';
+function objectToUrlParams(obj:any) {
     const params = [];
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -31,7 +32,7 @@ export const categoriesData = async (params = {}) => {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
-export const GetSingleProduct = async (id, params = {}) => {
+export const GetSingleProduct = async (id:number, params = {}) => {
     const API = `${API_URL}products/${id}?${objectToUrlParams(params)}`
     try {
         const response = await axios.get(API);
@@ -43,7 +44,7 @@ export const GetSingleProduct = async (id, params = {}) => {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
-export async function fetchProducts(productIds, params = {}) {
+export async function fetchProducts(productIds = [], params = {}) {
     const urls = productIds.map(id => `${API_URL}products/${id}?${objectToUrlParams(params)}`);
     try {
         const responses = await Promise.all(urls.map(url => axios.get(url)));
@@ -63,3 +64,29 @@ export async function randomUserData(params = {}) {
         console.error("Error fetching products:", error);
     }
 }
+const APIService = {
+    auth: {
+        login: async (data: any) => {
+            try {
+                return await apiPost('login', data);
+            } catch (error) {
+                console.error('Login failed:', error);
+                throw error;
+            }
+        },
+    },
+    products: {
+        all: async () => {
+            return await apiGet('products');
+        },
+        view: async (id: number) => {
+            return await apiGet(`products/${id}`);
+        },
+    },
+    category:{
+        all: async () => {
+            return await apiGet('categories');
+        },
+    }
+}
+export default APIService;
