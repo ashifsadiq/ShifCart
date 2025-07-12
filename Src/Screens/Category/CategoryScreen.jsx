@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { categoriesData } from '../../Functions/APIResponses';
+import APIService, { categoriesData } from '../../Functions/APIResponses';
 import UserLayout from '../../Layouts/UserLayout';
 import CategoryLayout from './CategoryLayout';
 
@@ -11,14 +11,15 @@ export default function CategoryScreen(props) {
     const [catLoading, setCatLoading] = useState(false)
     const fetchData = async () => {
         try {
-            const cat = await categoriesData()
-            setCategoryData(cat);
-            if (cat.length > 0) {
-                const categoryProducts = await categoriesData({
-                    type: currentActiveCat,
-                });
-                setCategoryDataProduct(categoryProducts);
-            }
+            const cat = await APIService.category.all()
+            console.log('cat', JSON.stringify(cat, null, 2))
+            // setCategoryData(cat.data);
+            // if (cat.length > 0) {
+            //     const categoryProducts = await categoriesData({
+            //         type: currentActiveCat,
+            //     });
+            //     setCategoryDataProduct(categoryProducts);
+            // }
         } catch (error) {
             console.log('Error fetching products:15', error);
         }

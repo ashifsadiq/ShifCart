@@ -3,13 +3,15 @@ import {
     Dimensions,
     FlatList,
     Image,
+    Pressable,
     ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ImageView from "react-native-image-viewing";
 import UserLayout from '../../Layouts/UserLayout';
 import APIService from '../../Functions/APIResponses';
 import theme from '../../config/theme';
@@ -19,6 +21,8 @@ import SQLiteService from '../../Functions/SQLiteService';
 import TextUI from '../../Components/ui/TextUI';
 import H1 from '../../Components/ui/H1';
 import H2 from '../../Components/ui/H2';
+import { useFocusEffect } from '@react-navigation/native';
+import ProductDetailReviews from './ProductDetailReviews';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -28,6 +32,7 @@ export default function ProductDetails({ route }) {
     const thumbnailRef = useRef(null);
     const [productData, setProductData] = useState({});
     const [productImages, setProductImages] = useState([])
+    const [visible, setIsVisible] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [currentCount, setCurrentCount] = useState(null);
@@ -36,7 +41,7 @@ export default function ProductDetails({ route }) {
     const fetchProductData = async () => {
         const product = await APIService.products.view(id);
         setProductData(product.data)
-        const allImages = [product.data?.image, ...(product.data?.images ?? [])];
+        const allImages = [product.data?.image, ...(product.data?.images ?? [])].map(image => ({ uri: image }));
         setProductImages(allImages);
     };
     const addToCart = async () => {
@@ -67,19 +72,23 @@ export default function ProductDetails({ route }) {
         }
     });
     const scrollThumbnailToCenter = (index) => {
-        console.log("sss")
         const imageWidth = theme.radius * 10;
         const padding = imageWidth * 0.15 + theme.radius / 2;
-
         thumbnailRef.current?.scrollToIndex({
             index,
             animated: true,
             viewPosition: 0.5, // Center the item
         });
     };
-    useEffect(() => {
-        fetchProductData();
-    }, [id]);
+    useFocusEffect(
+        useCallback(() => {
+            fetchProductData();
+            return () => {
+                setProductImages([]);
+                setProductData({});
+            };
+        }, []),
+    );
     return (
         <UserLayout style={{ paddingHorizontal: 0, flex: 1 }}>
             <NavigationComponent />
@@ -95,16 +104,18 @@ export default function ProductDetails({ route }) {
                         viewabilityConfig={viewAbilityConfig}
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item, index }) => (
-                            <Image
-                                source={{ uri: item }}
-                                style={[
-                                    styles.image,
-                                    {
-                                        width: theme.screenWidth
-                                    }
-                                ]}
-                                resizeMode="contain"
-                            />
+                            <Pressable onPress={() => setIsVisible(true)}>
+                                <Image
+                                    source={{ uri: item.uri }}
+                                    style={[
+                                        styles.image,
+                                        {
+                                            width: theme.screenWidth
+                                        }
+                                    ]}
+                                    resizeMode="contain"
+                                />
+                            </Pressable>
                         )}
                     />,
                     <FlatList
@@ -130,7 +141,6 @@ export default function ProductDetails({ route }) {
                                     onPress={() => {
                                         imageFlatListRef.current?.scrollToIndex({ index, animated: true });
                                         scrollThumbnailToCenter(index);
-                                        setCurrentImageIndex(index);
                                     }}
                                     style={{
                                         backgroundColor: index === currentImageIndex ? theme.primary : "transparent",
@@ -140,7 +150,7 @@ export default function ProductDetails({ route }) {
                                     }}
                                 >
                                     <Image
-                                        source={{ uri: item }}
+                                        source={{ uri: item.uri }}
                                         style={{
                                             width: imageWidth,
                                             height: imageWidth,
@@ -161,8 +171,8 @@ export default function ProductDetails({ route }) {
                         paddingHorizontal: theme.radius * 1.5,
                     }}>
                         <View style={styles.priceContainer}>
-                            <TextUI style={styles.strikePrice}>₹{discountPrice.toFixed(2)}</TextUI>
-                            <H1 style={styles.price}>₹{productData.price?.toFixed(2)}</H1>
+                            <TextUI style={styles.strikePrice}>₹{productData.mrp}</TextUI>
+                            <H1 style={styles.price}>₹{productData.price}</H1>
                         </View>
                         <TouchableOpacity onPress={toggleFavorite} >
                             {isFav ? <AntDesign name='heart' size={theme.fontSize['text-3xl']} color={theme.primary} /> : <AntDesign name='hearto' size={theme.fontSize['text-3xl']} color={theme.primary} />}
@@ -170,13 +180,14 @@ export default function ProductDetails({ route }) {
                     </View>,
                     <H1 style={styles.title}>{productData.name}</H1>,
                     <TextUI style={styles.description}>{productData.description}</TextUI>,
+                    <ProductDetailReviews reviews={productData.reviews} />
                 ]}
                 keyExtractor={(_, i) => i.toString()}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <View style={{ marginBottom: theme.radius }} >{item}</View>}
             />
             {Object.keys(productData).length > 0 && <View style={styles.bottomBar}>
-                <Text style={styles.bottomPrice}>₹{productData.price?.toFixed(2)}</Text>
+                <Text style={styles.bottomPrice}>₹{productData.price}</Text>
                 {currentCount < 1 ? <TouchableOpacity
                     style={[styles.addToCartButton, addLoading && { opacity: 0.5 }]}
                     disabled={addLoading}
@@ -212,6 +223,19 @@ export default function ProductDetails({ route }) {
                     </View>
                 }
             </View>}
+            <ImageView
+                images={productImages}
+                imageIndex={currentImageIndex}
+                visible={visible}
+                backgroundColor='#fff'
+                onRequestClose={() => setIsVisible(false)}
+            // onImageIndexChange={(index) => {
+            //     if (visible) {
+            //         imageFlatListRef.current?.scrollToIndex({ index, animated: true });
+            //         scrollThumbnailToCenter(index)
+            //     }
+            // }}
+            />
         </UserLayout>
     );
 }

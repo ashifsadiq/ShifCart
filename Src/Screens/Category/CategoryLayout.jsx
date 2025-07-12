@@ -62,9 +62,9 @@ function CategoryLayout({
                             <TouchableOpacity disabled={loading} style={[styles.button, {
                                 borderColor: currentActiveCat === item ? theme.primary : 'transparent',
                             }]}
-                                onPress={() => onPressCategory(item)}
+                                onPress={() => onPressCategory(item.id)}
                             >
-                                <H3 style={styles.categoryText} >{item}</H3>
+                                <H3 style={styles.categoryText} >{item.name}</H3>
                             </TouchableOpacity>
                         )}
                     />,

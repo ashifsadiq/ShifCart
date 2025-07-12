@@ -22,6 +22,7 @@ const TextUI = ({
   foreground = false,
   ...rest
 }: TextUIProps) => {
+  if(!children) return null
   const isDarkMode = useColorScheme() === 'dark';
 
   const textColor = () => {

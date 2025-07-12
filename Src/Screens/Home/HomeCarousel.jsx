@@ -20,7 +20,7 @@ const HomeCarousel = ({ carouselImg }) => {
       <Carousel
         autoPlayInterval={2000}
         autoPlay={true}
-        data={carouselImg}
+        data={data}
         height={"auto"}
         loop={true}
         pagingEnabled={true}

@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
   details: {
     flex: 1, // remaining 60%
     rowGap: theme.radius,
-    height:"100%"
+    height:"100%",
+    justifyContent:"space-around"
   },
   priceRow: {
     flexDirection: 'row',

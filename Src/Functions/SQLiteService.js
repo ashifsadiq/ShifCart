@@ -50,7 +50,6 @@ const SQLiteService = {
     },
 
     executeQuery: async (query, params = []) => {
-        console.table({ query })
         const database = await SQLiteService.open();
         try {
             const [results] = await database.executeSql(query, params);
