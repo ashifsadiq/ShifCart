@@ -13,8 +13,10 @@ const APIService = {
         },
     },
     dashboard: {
-        all: async () => {
-            return await apiGet('dashboard?categories');
+        all: async (params = {}) => {
+            return await apiGet('dashboard', {
+                params: params
+            });
         }
     },
     products: {
@@ -30,7 +32,7 @@ const APIService = {
             try {
                 return await apiGet('categories');
             } catch (error) {
-                console.error('category.all failed', error.message);
+                console.error('category.all failed', error);
                 throw error;
             }
         },

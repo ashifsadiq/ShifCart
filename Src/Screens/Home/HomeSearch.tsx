@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import TextUI from '../../Components/ui/TextUI'
 
 const HomeSearch = () => {
   return (
     <View>
-      <Text>HomeSearch</Text>
+      <TextUI>HomeSearch</TextUI>
     </View>
   )
 }

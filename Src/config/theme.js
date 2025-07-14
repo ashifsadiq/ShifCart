@@ -91,5 +91,8 @@ export default {
             justifyContent: "center",
             alignItems: "center",
         }
-    })
+    }),
+    customColor: {
+        discount: "#CC0C39"
+    }
 }

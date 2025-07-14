@@ -4,16 +4,16 @@ import {
   useColorScheme,
   ViewStyle,
   TextStyle,
+  TextProps,
 } from 'react-native';
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import theme from '../../config/theme';
 
-type H3Props = {
+type H3Props = TextProps & {
   children: React.ReactNode;
-  style?: TextStyle | TextStyle[]; // use TextStyle instead of AbsoluteFillStyle
+  style?: TextStyle | TextStyle[];
   foreground?: boolean;
-  rest?: any;
 };
 
 const H3 = ({children, style, foreground = false, ...rest}: H3Props) => {
@@ -42,5 +42,6 @@ export default H3;
 const styles = StyleSheet.create({
   textStyles: {
     fontSize: theme.fontSize['text-lg'],
+    fontWeight: '600'
   },
 });

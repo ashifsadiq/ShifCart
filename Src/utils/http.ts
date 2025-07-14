@@ -38,7 +38,7 @@ export const apiGet = async <T = any>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  console.log({url, config})
+  console.log('apiGet',{url, config})
   const response: AxiosResponse<T> = await api.get(url, config);
   return response.data;
 };

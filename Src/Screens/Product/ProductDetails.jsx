@@ -179,7 +179,9 @@ export default function ProductDetails({ route }) {
                         </TouchableOpacity>
                     </View>,
                     <H1 style={styles.title}>{productData.name}</H1>,
-                    <TextUI style={styles.description}>{productData.description}</TextUI>,
+                    productData.description ?
+                        <TextUI style={styles.description}>{productData.description}</TextUI> :
+                        null,
                     <ProductDetailReviews reviews={productData.reviews} />
                 ]}
                 keyExtractor={(_, i) => i.toString()}

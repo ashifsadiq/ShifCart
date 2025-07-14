@@ -2,21 +2,20 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  ViewStyle,
   TextStyle,
+  TextProps,
 } from 'react-native';
 import React from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import theme from '../../config/theme';
 
-type H2Props = {
+type H2Props = TextProps & {
   children: React.ReactNode;
-  style?: TextStyle | TextStyle[]; // use TextStyle instead of AbsoluteFillStyle
+  style?: TextStyle | TextStyle[];
   foreground?: boolean;
-  rest?: any;
 };
 
-const H2 = ({children, style, foreground = false, ...rest}: H2Props) => {
+const H2 = ({ children, style, foreground = false, ...rest }: H2Props) => {
   const isDarkMode = useColorScheme() === 'dark';
   const textColor = () => {
     if (foreground) {
@@ -28,9 +27,10 @@ const H2 = ({children, style, foreground = false, ...rest}: H2Props) => {
     <Text
       style={[
         styles.textStyles,
-        {color: textColor()},
+        { color: textColor() },
         ...(Array.isArray(style) ? style : style ? [style] : []),
       ]}
+      ellipsizeMode="tail" // Add this line
       {...rest}>
       {children}
     </Text>

@@ -18,25 +18,33 @@ type RootStackParamList = {
   ProductDetails: { id: string };
   // add other routes here if needed
 };
-
-type ProductsComponentProps = {
+export type ProductDetailsParams = {
   id: number;
-  title: string;
-  image: string;
-  slug: string;
-  price: number;
-  mrp: number;
+  name?: string;
+  slug?: string;
+  description?: string;
+  image?: string;
+  price?: number;
+  mrp?: number;
   discount?: number;
+  review?: number;
+  review_count?: number;
+  sales?: number;
+};
+export type ProductsComponentProps = ProductDetailsParams & {
   customStyle?: ViewStyle;
 };
 export default function ProductsComponent({
-  id,
-  title,
+  id = 0,
+  name,
+  description,
+  slug = "",
   image,
-  slug,
   price,
   mrp,
   discount,
+  review,
+  review_count,
   customStyle,
 }: ProductsComponentProps) {
   const isDarkMode = useColorScheme() != 'dark';
@@ -47,7 +55,9 @@ export default function ProductsComponent({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ProductDetails', { id: id.toString(), slug: slug })}
+      onPress={() => navigation.navigate('ProductDetails', {
+        id: id.toString(),
+      })}
       activeOpacity={0.8}
       style={[
         styles.container,
@@ -62,7 +72,7 @@ export default function ProductsComponent({
         />
 
         <View style={styles.details}>
-          <TextUI numberOfLines={2}>{title}</TextUI>
+          <TextUI numberOfLines={2}>{name}</TextUI>
           <TextUI style={styles.price}>₹{price}</TextUI>
           <View style={styles.priceSection}>
             <View style={styles.priceRow}>
@@ -97,8 +107,8 @@ const styles = StyleSheet.create({
   details: {
     flex: 1, // remaining 60%
     rowGap: theme.radius,
-    height:"100%",
-    justifyContent:"space-around"
+    height: "100%",
+    justifyContent: "space-around"
   },
   priceRow: {
     flexDirection: 'row',

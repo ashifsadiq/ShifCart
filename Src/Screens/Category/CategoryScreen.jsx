@@ -12,7 +12,6 @@ export default function CategoryScreen(props) {
     const fetchData = async () => {
         try {
             const cat = await APIService.category.all()
-            console.log('cat', JSON.stringify(cat, null, 2))
             // setCategoryData(cat.data);
             // if (cat.length > 0) {
             //     const categoryProducts = await categoriesData({

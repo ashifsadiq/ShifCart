@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, useColorScheme} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Text, useColorScheme } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Screens
 import HomeScreen from './Screens/Home/HomeScreen';
 import WishListScreen from './Screens/WishList/WishListScreen';
@@ -10,20 +10,23 @@ import CartScreen from './Screens/Cart/CartScreen';
 import ProfileScreen from './Screens/Profile/ProfileScreen';
 import SearchScreen from './Screens/Search/SearchScreen';
 import SearchResultsScreen from './Screens/Search/SearchResultsScreen';
-import {Ionicons} from './Components/CustomIcons';
+import { Ionicons } from './Components/CustomIcons';
 import CategoryScreen from './Screens/Category/CategoryScreen';
 import ProductDetails from './Screens/Product/ProductDetails';
 import SQLiteService from './Functions/SQLiteService';
 import theme from './config/theme';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CheckOut from './Screens/CheckOut/CheckOut';
 import screenNames from './config/screenNames';
 import LoginScreen from './Screens/Auth/Login/LoginScreen';
+import { ProductDetailsParams } from './Components/ProductsComponent';
 
 // Navigators
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  [screenNames.ProductDetails]: ProductDetailsParams;
+};
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
-
 function BottomTabNavigator() {
   const isDarkMode = useColorScheme() != 'dark';
   useEffect(() => {
@@ -33,10 +36,10 @@ function BottomTabNavigator() {
   }, []);
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarStyle: {backgroundColor: isDarkMode ? '#fff' : '#000'},
+      screenOptions={({ route }) => ({
+        tabBarStyle: { backgroundColor: isDarkMode ? '#fff' : '#000' },
         headerShown: false,
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === screenNames.HomeTab) {
@@ -81,7 +84,7 @@ export default function MainNavigator() {
           flex: 1,
         }}>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
             {Screens.map((screen, screenIndex) => (
               <Stack.Screen
                 key={screenIndex.toString()}

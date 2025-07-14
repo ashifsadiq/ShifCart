@@ -4,16 +4,16 @@ import {
   useColorScheme,
   ViewStyle,
   TextStyle,
+  TextProps,
 } from 'react-native';
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import theme from '../../config/theme';
 
-type H1Props = {
+type H1Props = TextProps & {
   children: React.ReactNode;
-  style?: TextStyle | TextStyle[]; // use TextStyle instead of AbsoluteFillStyle
+  style?: TextStyle | TextStyle[];
   foreground?: boolean;
-  rest?: any;
 };
 
 const H1 = ({children, style, foreground = false, ...rest}: H1Props) => {

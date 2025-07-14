@@ -4,8 +4,6 @@ import theme from '../../config/theme'
 import ProductsComponent from '../../Components/ProductsComponent'
 import { AntDesign } from '../../Components/CustomIcons'
 import { useNavigation } from '@react-navigation/native'
-import CatButtonsSkelton from '../../Components/CatButtonsSkelton'
-import ProductSkelton from '../../Components/ProductSkelton'
 import H2 from '../../Components/ui/H2'
 import H3 from '../../Components/ui/H3'
 import TextUI from '../../Components/ui/TextUI'
@@ -74,7 +72,7 @@ function CategoryLayout({
                         renderItem={({ item, index }) => (
                             <ProductsComponent
                                 id={item?.id}
-                                title={item?.name}
+                                name={item?.name}
                                 image={item?.image}
                                 price={item?.price}
                                 mrp={item?.mrp}

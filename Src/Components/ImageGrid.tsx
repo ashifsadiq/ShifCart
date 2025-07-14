@@ -1,33 +1,50 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, ViewStyle, ImageStyle, useColorScheme } from 'react-native';
+import theme from '../config/theme';
+type ImageGridType = {
+  images: string[];
+  isTwice?: Boolean;
+  style?: ViewStyle,
+  imageStyle?: ImageStyle
+}
+const ImageGrid = ({ images = [], isTwice = false, style = {}, imageStyle }: ImageGridType) => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const displayImages = images.slice(0, 4); // Only show top 4
 
-const ImageGrid = ({ images = [] }) => {
-  const displayImages = images.slice(0, 4);
-
-  const renderImage = (uri, index) => (
+  const renderImage = (uri: string, index: number) => (
     <Image
       key={index}
       source={{ uri }}
-      resizeMode="cover"
-      style={[styles.image, getImageStyle(displayImages.length, index)]}
+      style={[
+        styles.image,
+        {
+          borderColor: isDarkMode ? theme.dark.background : theme.background,
+          backgroundColor: isDarkMode ? theme.background : 'transparent'
+        },
+        getImageStyle(displayImages.length, index),
+        // imageStyle
+      ]}
+      resizeMode="contain"
     />
   );
 
-  return <View style={styles.container}>{displayImages.map(renderImage)}</View>;
+  return <View style={[styles.container, style]}>{displayImages.map(renderImage)}</View>;
 };
 
-const getImageStyle = (count, index) => {
+const getImageStyle = (count: number, index: number) => {
   switch (count) {
     case 1:
-      return { width: '100%', height: 200 };
+      return { width: '98%', height: 200 } as const;
     case 2:
-      return { width: '49%', height: 200, margin: '0.5%' };
+      return { width: '45.5%', height: 200 } as const;
     case 3:
-      if (index === 0) return { width: '100%', height: 200, marginBottom: 5 };
-      return { width: '49%', height: 100, margin: '0.5%' };
+      return {
+        width: index === 0 ? '100%' : '48%',
+        height: index === 0 ? 100 : 100,
+      } as const;
     case 4:
     default:
-      return { width: '49%', height: 100, margin: '0.5%' };
+      return { width: '48%', height: 100 } as const;
   }
 };
 
@@ -37,10 +54,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     borderRadius: 16,
     overflow: 'hidden',
-    justifyContent: 'space-between',
+    rowGap: "2%",
+    columnGap: "2%"
   },
   image: {
-    borderRadius: 12,
+    borderWidth: 1,
+    borderRadius: 16,
   },
 });
 

@@ -1,38 +1,76 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useCallback } from 'react'
-import { useFocusEffect } from '@react-navigation/native';
+import { SectionList, StyleSheet, Text, useColorScheme, View } from 'react-native'
+import React from 'react'
 import UserLayout from '../../Layouts/UserLayout';
 import HomeCategories from './HomeCategories';
-import HomeSearch from './HomeSearch';
-import ImageGrid from '../../Components/ImageGrid';
+import theme from '../../config/theme';
+import H1 from '../../Components/ui/H1';
+import TextUI from '../../Components/ui/TextUI';
+import HomeTopProducts from './HomeTopProducts';
+import HomeNewItems from './HomeNewItems';
+import HomeMostPopular from './HomeMostPopular';
+import HomeFlashSale from './HomeFlashSale';
 
 const HomeScreen = () => {
-  async function getData() {
-
-  }
-  useFocusEffect(
-    useCallback(() => {
-      getData();
-      return () => {
-        getData();
-      };
-    }, []),
-  );
-  const data = [
-    <ImageGrid />,
-    <HomeCategories />,
-    <HomeCategories />,
-    <HomeCategories />,
-    <HomeCategories />,
-    <HomeCategories />,
-  ]
+  const isDarkMode = useColorScheme() === 'dark';
+  const DATA = [
+    {
+      title: 'Most Popular',
+      data: [
+        <HomeMostPopular style={styles.eachItemStyle} />
+      ]
+    },
+    {
+      title: 'Flash Sale',
+      data: [
+        <HomeFlashSale style={styles.eachItemStyle} />
+      ]
+    },
+    {
+      title: 'New Items',
+      data: [
+        <HomeNewItems style={styles.eachItemStyle} />
+      ]
+    },
+    {
+      title: 'Top Products',
+      data: [
+        <HomeTopProducts style={styles.eachItemStyle} />
+      ],
+    },
+    {
+      title: 'Categories',
+      data: [
+        <HomeCategories
+          style={styles.eachItemStyle} />
+      ],
+    },
+  ];
   return (
-    <UserLayout>
-      <FlatList
-        data={data}
-        ListHeaderComponent={<HomeSearch />}
-        renderItem={({ item }) => item}
+    <UserLayout style={styles.container}>
+      <SectionList
+        onRefresh={() => { }}
+        refreshing={false}
+        sections={DATA}
+        style={styles.container}
+        removeClippedSubviews={true}
+        contentContainerStyle={{
+          paddingBottom: theme.screenHeight / 20
+        }}
+        showsVerticalScrollIndicator={false}
+        maxToRenderPerBatch={5}
+        initialNumToRender={5}
         keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => item}
+        renderSectionHeader={({ section: { title } }) => (
+          <H1 style={
+            [
+              styles.sectionHeader,
+              {
+                backgroundColor: isDarkMode ? theme.dark.muted : theme.muted,
+              }
+            ]
+          }>{title}</H1>
+        )}
       />
     </UserLayout>
   )
@@ -40,4 +78,19 @@ const HomeScreen = () => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flatListStyle: {
+    // rowGap: theme.radius * 2,
+  },
+  sectionHeader: {
+    paddingHorizontal: theme.radius,
+    paddingVertical: theme.radius * 2
+  },
+  eachItemStyle: {
+    paddingHorizontal: theme.radius,
+    // flex: 1
+  }
+})

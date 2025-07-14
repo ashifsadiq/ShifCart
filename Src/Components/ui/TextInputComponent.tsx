@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -9,7 +9,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import theme from '../../config/theme';
 import TextUI from './TextUI';
 import ButtonUi from './ButtonUi';
@@ -44,7 +44,7 @@ const TextInputComponent = ({
 
   return (
     <View style={[styles.contentContainerStyle, contentContainerStyle]}>
-      {label && <TextUI style={[styles.label]}>{label}</TextUI>}
+      {label ? <TextUI style={[styles.label]}>{label}</TextUI> : null}
       <View
         style={{
           borderRadius: spaces,
