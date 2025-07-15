@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { ProductsComponentProps } from '../../Components/ProductsComponent';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -61,7 +61,7 @@ const HomeMostPopular = ({
     )
 }
 
-export default HomeMostPopular
+export default memo(HomeMostPopular)
 
 const styles = StyleSheet.create({
     flatList: {}

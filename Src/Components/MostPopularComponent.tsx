@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         padding: theme.fontSize['text-xs'],
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        columnGap: 3
+        // justifyContent: "space-between"
     }
 })

@@ -40,10 +40,14 @@ const ProductListComponent = (product: ProductDetailsParams) => {
                 }} numberOfLines={2}>{product.name}</H3>
                 <View style={styles.priceSection}>
                     <H2>₹{product.price}</H2>
-                    <TextUI>₹{product.mrp}</TextUI>
+                    <TextUI style={{
+                        textDecorationLine: 'line-through',
+                    }}>₹{product.mrp}</TextUI>
                     <OffPercent discount={product.discount || 0} />
                 </View>
-                <RatingStar value={product.review} count={product.review_count} />
+                <RatingStar ratingProps={{
+                    imageSize: theme.radius * 2
+                }} value={product.review || 0} count={product.review_count} />
             </View>
         </TouchableOpacity>
     )

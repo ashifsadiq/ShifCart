@@ -52,7 +52,9 @@ const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[]
                             </View>
                             {/* Report Will Go Here */}
                         </View>
-                        <RatingStar value={review.rating} />
+                        <RatingStar ratingProps={{
+                            imageSize: theme.radius * 2
+                        }} value={review.rating} />
                         <H3 style={{
                             fontWeight: "600"
                         }}>{review.title}</H3>

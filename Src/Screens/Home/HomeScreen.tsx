@@ -1,5 +1,5 @@
 import { SectionList, StyleSheet, Text, useColorScheme, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import UserLayout from '../../Layouts/UserLayout';
 import HomeCategories from './HomeCategories';
 import theme from '../../config/theme';
@@ -12,6 +12,7 @@ import HomeFlashSale from './HomeFlashSale';
 
 const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [refreshSwitch, setRefreshSwitch] = useState(false)
   const DATA = [
     {
       title: 'Most Popular',
@@ -48,7 +49,11 @@ const HomeScreen = () => {
   return (
     <UserLayout style={styles.container}>
       <SectionList
-        onRefresh={() => { }}
+        stickySectionHeadersEnabled={true}
+        onRefresh={() => {
+          setRefreshSwitch(ttt => !ttt)
+        }}
+        key={refreshSwitch}
         refreshing={false}
         sections={DATA}
         style={styles.container}
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     paddingHorizontal: theme.radius,
-    paddingVertical: theme.radius * 2
+    paddingVertical: theme.fontSize['text-xs'] / 2
   },
   eachItemStyle: {
     paddingHorizontal: theme.radius,

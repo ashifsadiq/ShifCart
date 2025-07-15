@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, useColorScheme, View, ViewStyle } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import APIService from '../../Functions/APIResponses'
 import TextUI from '../../Components/ui/TextUI'
 import ImageGrid from '../../Components/ImageGrid'
@@ -79,7 +79,7 @@ const HomeCategories = ({
     )
 }
 
-export default HomeCategories
+export default memo(HomeCategories)
 
 const styles = StyleSheet.create({
     flatList: {

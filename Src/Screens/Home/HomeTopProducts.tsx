@@ -1,9 +1,12 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, useColorScheme, View, ViewStyle } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import H1 from '../../Components/ui/H1'
 import APIService from '../../Functions/APIResponses';
 import TextUI from '../../Components/ui/TextUI';
 import theme from '../../config/theme';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../MainNavigator';
 type HomeTopProductsProps = {
     hideListHeaderComponent?: boolean;
     style?: ViewStyle;
@@ -18,6 +21,8 @@ const HomeTopProducts = ({
     hideListHeaderComponent = true,
     style = {},
 }: HomeTopProductsProps) => {
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const [productData, setProductData] = useState<ProductDataType[]>([])
     const isDarkMode = useColorScheme() === 'dark';
     const getData = async () => {
@@ -49,14 +54,20 @@ const HomeTopProducts = ({
             }}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => <TouchableOpacity style={[
-                styles.touchStyle,
-                {
-                    backgroundColor: isDarkMode ? theme.dark.card : theme.card,
+            renderItem={({ item: product, index }) => <TouchableOpacity
+                onPress={() =>
+                    navigation.navigate('ProductDetails', {
+                        id: product.id
+                    })
                 }
-            ]}>
+                style={[
+                    styles.touchStyle,
+                    {
+                        backgroundColor: isDarkMode ? theme.dark.card : theme.card,
+                    }
+                ]}>
                 <Image
-                    source={{ uri: item.image }}
+                    source={{ uri: product.image }}
                     style={{
                         width: imageSize,
                         height: imageSize,
@@ -70,7 +81,7 @@ const HomeTopProducts = ({
     )
 }
 
-export default HomeTopProducts
+export default memo(HomeTopProducts)
 
 const styles = StyleSheet.create({
     flatList: {

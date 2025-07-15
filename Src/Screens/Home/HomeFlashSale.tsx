@@ -1,5 +1,5 @@
 import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, useColorScheme, View, ViewStyle } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { ProductsComponentProps } from '../../Components/ProductsComponent';
 import APIService from '../../Functions/APIResponses';
 import H1 from '../../Components/ui/H1';
@@ -85,7 +85,7 @@ const HomeFlashSale = ({
     )
 }
 
-export default HomeFlashSale
+export default memo(HomeFlashSale)
 
 const styles = StyleSheet.create({
     flatList: {

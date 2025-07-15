@@ -1,5 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, useColorScheme, View, ViewStyle } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import H1 from '../../Components/ui/H1'
 import APIService from '../../Functions/APIResponses';
 import TextUI from '../../Components/ui/TextUI';
@@ -54,7 +54,7 @@ const HomeTopProducts = ({
   )
 }
 
-export default HomeTopProducts
+export default memo(HomeTopProducts)
 
 const styles = StyleSheet.create({
   flatList: {

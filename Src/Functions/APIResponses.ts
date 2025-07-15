@@ -36,6 +36,14 @@ const APIService = {
                 throw error;
             }
         },
+        view: async (id: number) => {
+            try {
+                return await apiGet(`categories/${id}`);
+            } catch (error) {
+                console.error('category.id failed', error);
+                throw error;
+            }
+        },
     }
 }
 function objectToUrlParams(obj: any) {
