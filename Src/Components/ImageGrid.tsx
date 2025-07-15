@@ -19,7 +19,7 @@ const ImageGrid = ({ images = [], isTwice = false, style = {}, imageStyle }: Ima
         styles.image,
         {
           borderColor: isDarkMode ? theme.dark.background : theme.background,
-          backgroundColor: isDarkMode ? theme.background : 'transparent'
+          backgroundColor: isDarkMode ? theme.background : 'transparent',
         },
         getImageStyle(displayImages.length, index),
         // imageStyle
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     rowGap: "2%",
-    columnGap: "2%"
+    columnGap: "2%",
+    justifyContent:"space-between"
   },
   image: {
     borderWidth: 1,

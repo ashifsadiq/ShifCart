@@ -13,7 +13,6 @@ const RatingStar = ({ value = 0, count = 0 }) => {
                 ratingCount={5}
                 imageSize={theme.fontSize['text-base']}
                 startingValue={value}
-                readonly
                 tintColor={isDarkMode ? theme.dark.card : theme.card}
                 ratingBackgroundColor="#ccc"
                 // Custom star color

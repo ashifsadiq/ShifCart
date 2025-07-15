@@ -96,11 +96,11 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 20,
         overflow: 'hidden',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 8, // Android
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 6 },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 10,
+        // elevation: 8, // Android
         backgroundColor: '#fff',
     },
     image: {

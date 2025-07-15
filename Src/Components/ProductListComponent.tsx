@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import RatingStar from './RatingStar'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../MainNavigator'
+import OffPercent from './ui/OffPercent'
 
 const imageWidth = theme.screenWidth * 0.35
 const ProductListComponent = (product: ProductDetailsParams) => {
@@ -40,7 +41,7 @@ const ProductListComponent = (product: ProductDetailsParams) => {
                 <View style={styles.priceSection}>
                     <H2>₹{product.price}</H2>
                     <TextUI>₹{product.mrp}</TextUI>
-                    {product.discount ? <TextUI style={styles.discount}>{product.discount}% Off</TextUI> : null}
+                    <OffPercent discount={product.discount || 0} />
                 </View>
                 <RatingStar value={product.review} count={product.review_count} />
             </View>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         borderRadius: theme.radius * 2,
     },
     image: {
-        width: "100%",
+        width: imageWidth,
         height: imageWidth,
         backgroundColor: theme.muted,
         borderTopLeftRadius: theme.radius * 2,
@@ -71,13 +72,4 @@ const styles = StyleSheet.create({
         columnGap: theme.fontSize['text-xs'],
         rowGap: theme.fontSize['text-xs'],
     },
-    discount: {
-        backgroundColor: theme.customColor.discount,
-        color: theme.muted,
-        fontWeight: "600",
-        paddingHorizontal: theme.radius,
-        paddingVertical: theme.radius / 2,
-        alignSelf: "flex-start",
-        borderRadius: theme.radius * 1.5,
-    }
 })

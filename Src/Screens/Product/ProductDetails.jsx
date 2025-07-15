@@ -23,6 +23,7 @@ import H1 from '../../Components/ui/H1';
 import H2 from '../../Components/ui/H2';
 import { useFocusEffect } from '@react-navigation/native';
 import ProductDetailReviews from './ProductDetailReviews';
+import OffPercent from '../../Components/ui/OffPercent';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -173,6 +174,7 @@ export default function ProductDetails({ route }) {
                         <View style={styles.priceContainer}>
                             <TextUI style={styles.strikePrice}>₹{productData.mrp}</TextUI>
                             <H1 style={styles.price}>₹{productData.price}</H1>
+                            <OffPercent discount={productData.discount} />
                         </View>
                         <TouchableOpacity onPress={toggleFavorite} >
                             {isFav ? <AntDesign name='heart' size={theme.fontSize['text-3xl']} color={theme.primary} /> : <AntDesign name='hearto' size={theme.fontSize['text-3xl']} color={theme.primary} />}

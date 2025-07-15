@@ -1,10 +1,11 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { FlatList, Image, StyleSheet, Text, useColorScheme, View } from 'react-native'
+import React, { memo } from 'react'
 import { User } from '../../utils/types/user';
 import theme from '../../config/theme';
 import TextUI from '../../Components/ui/TextUI';
 import H2 from '../../Components/ui/H2';
 import H3 from '../../Components/ui/H3';
+import RatingStar from '../../Components/RatingStar';
 type ProductDetailReviewsType = {
     id: number;
     rating: number;
@@ -14,6 +15,7 @@ type ProductDetailReviewsType = {
 }
 const userImageWidth = theme.screenWidth * 0.1
 const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[] }) => {
+    const isDarkMode = useColorScheme() === 'dark';
     return (
         <FlatList
             data={reviews}
@@ -24,10 +26,14 @@ const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[]
             renderItem={({ item: review }) => {
                 const { user } = review;
                 return (
-                    <View style={styles.content}>
+                    <View style={[styles.content,
+                    {
+                        backgroundColor: isDarkMode ? theme.dark.card : theme.card
+                    }
+                    ]}>
                         <View style={{
                             flexDirection: 'row',
-                            justifyContent:"space-between",
+                            justifyContent: "space-between",
                             alignItems: 'center'
                         }}>
                             <View style={{
@@ -46,10 +52,11 @@ const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[]
                             </View>
                             {/* Report Will Go Here */}
                         </View>
+                        <RatingStar value={review.rating} />
                         <H3 style={{
                             fontWeight: "600"
                         }}>{review.title}</H3>
-                        <TextUI>{review.comment}</TextUI>
+                        <TextUI>{JSON.stringify(review)}</TextUI>
                     </View>
                 )
             }}
@@ -62,7 +69,7 @@ const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[]
     )
 }
 
-export default ProductDetailReviews
+export default memo(ProductDetailReviews)
 
 const styles = StyleSheet.create({
     container: {
