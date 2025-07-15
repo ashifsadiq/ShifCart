@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, useColorScheme, View, ViewStyle } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, useColorScheme, View, ViewStyle } from 'react-native'
 import React, { memo, useEffect, useState } from 'react'
 import APIService from '../../Functions/APIResponses'
 import TextUI from '../../Components/ui/TextUI'
@@ -6,10 +6,15 @@ import ImageGrid from '../../Components/ImageGrid'
 import theme from '../../config/theme'
 import H1 from '../../Components/ui/H1'
 import H2 from '../../Components/ui/H2'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../MainNavigator'
+import screenNames from '../../config/screenNames'
 
 type CategoriesImagesType = {
     name: string;
     images: string[];
+    id: number;
 }
 type HomeCategoriesType = {
     hideListHeaderComponent?: boolean;
@@ -23,6 +28,8 @@ const HomeCategories = ({
 }: HomeCategoriesType) => {
     const [categoriesImages, setCategoriesImages] = useState<CategoriesImagesType[]>([])
     const isDarkMode = useColorScheme() === 'dark';
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const getData = async () => {
         try {
             const data = await APIService.dashboard.all({ categories: "" });
@@ -48,7 +55,12 @@ const HomeCategories = ({
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => {
-                return <View
+                return <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate(screenNames.CategoryScreen, {
+                            id: item.id.toString()
+                        })
+                    }}
                     style={
                         {
                             backgroundColor: isDarkMode ? theme.dark.card : theme.card,
@@ -72,7 +84,7 @@ const HomeCategories = ({
                         padding: theme.fontSize['text-xs'] / 2,
                         paddingVertical: theme.fontSize['text-xs'],
                     }} numberOfLines={1}>{item.name}</H2>
-                </View>
+                </TouchableOpacity>
 
             }}
         />

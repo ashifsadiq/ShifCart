@@ -13,6 +13,7 @@ import theme from '../config/theme';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TextUI from './ui/TextUI';
+import screenNames from '../config/screenNames';
 
 type RootStackParamList = {
   ProductDetails: { id: string };
@@ -55,7 +56,7 @@ export default function ProductsComponent({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ProductDetails', {
+      onPress={() => navigation.navigate(screenNames.ProductDetails, {
         id: id.toString(),
       })}
       activeOpacity={0.8}

@@ -7,6 +7,7 @@ import theme from '../../config/theme';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../MainNavigator';
+import screenNames from '../../config/screenNames';
 type HomeTopProductsProps = {
     hideListHeaderComponent?: boolean;
     style?: ViewStyle;
@@ -56,7 +57,7 @@ const HomeTopProducts = ({
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item: product, index }) => <TouchableOpacity
                 onPress={() =>
-                    navigation.navigate('ProductDetails', {
+                    navigation.navigate(screenNames.ProductDetails, {
                         id: product.id
                     })
                 }

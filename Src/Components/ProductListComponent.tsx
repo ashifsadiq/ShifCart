@@ -10,6 +10,7 @@ import RatingStar from './RatingStar'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../MainNavigator'
 import OffPercent from './ui/OffPercent'
+import screenNames from '../config/screenNames'
 
 const imageWidth = theme.screenWidth * 0.35
 const ProductListComponent = (product: ProductDetailsParams) => {
@@ -18,7 +19,7 @@ const ProductListComponent = (product: ProductDetailsParams) => {
     return (
         <TouchableOpacity
             onPress={() =>
-                navigation.navigate('ProductDetails', {
+                navigation.navigate(screenNames.ProductDetails, {
                     id: product.id
                 })
             }

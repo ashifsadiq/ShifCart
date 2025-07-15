@@ -8,6 +8,7 @@ import TextUI from '../../Components/ui/TextUI';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../MainNavigator';
+import screenNames from '../../config/screenNames';
 type HomeFlashSaleProps = {
     hideListHeaderComponent?: boolean;
     style?: ViewStyle;
@@ -63,7 +64,7 @@ const HomeFlashSale = ({
                 product.discount ? (
                     <TouchableOpacity
                         onPress={() =>
-                            navigation.navigate('ProductDetails', {
+                            navigation.navigate(screenNames.ProductDetails, {
                                 id: product.id
                             })
                         }

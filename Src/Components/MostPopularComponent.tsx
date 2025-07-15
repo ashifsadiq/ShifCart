@@ -7,6 +7,7 @@ import { Ionicons } from './CustomIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../MainNavigator';
+import screenNames from '../config/screenNames';
 
 const imageWidth = theme.screenWidth * 0.35
 const MostPopularComponent = (product: ProductsComponentProps) => {
@@ -16,7 +17,7 @@ const MostPopularComponent = (product: ProductsComponentProps) => {
     return (
         <TouchableOpacity
             onPress={() =>
-                navigation.navigate('ProductDetails', {
+                navigation.navigate(screenNames.ProductDetails, {
                     id: product.id
                 })
             }
