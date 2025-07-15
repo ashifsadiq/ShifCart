@@ -36,9 +36,10 @@ const RatingStar = ({ value = 0, count = 0, ratingProps = {} }: RatingStarProps)
 export default RatingStar;
 const styles = StyleSheet.create({
     starContainer: {
-        alignSelf: 'flex-start',
+        // alignSelf: 'flex-start',
         flexDirection: "row",
-        columnGap: theme.fontSize['text-xs']
+        columnGap: theme.fontSize['text-xs'],
+        width: "100%",
     },
     starStyle: {
         paddingVertical: 2,

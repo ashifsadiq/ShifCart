@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, useColorScheme } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, useColorScheme, ImageStyle, ViewStyle } from 'react-native'
 import React from 'react'
 import { ProductDetailsParams } from './ProductsComponent'
 import theme from '../config/theme'
@@ -11,9 +11,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../MainNavigator'
 import OffPercent from './ui/OffPercent'
 import screenNames from '../config/screenNames'
-
+type ProductListComponentType = ProductDetailsParams & {
+    imageStyle: ImageStyle;
+    containerStyle: ViewStyle;
+}
 const imageWidth = theme.screenWidth * 0.35
-const ProductListComponent = (product: ProductDetailsParams) => {
+const ProductListComponent = (product: ProductListComponentType) => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const isDarkMode = useColorScheme() === 'dark';
     return (
@@ -23,21 +26,26 @@ const ProductListComponent = (product: ProductDetailsParams) => {
                     id: product.id
                 })
             }
-            style={[styles.container, {
-                backgroundColor: isDarkMode ? theme.dark.card : theme.card,
-            }]}>
+            style={[
+                styles.container, {
+                    backgroundColor: isDarkMode ? theme.dark.card : theme.card,
+                },
+                product.containerStyle
+            ]}>
             <Image
                 source={{ uri: product.image }}
                 style={[
                     styles.image,
                     {
                         backgroundColor: isDarkMode ? theme.background : theme.card,
-                    }
+                    },
+                    product.imageStyle
                 ]}
                 resizeMode="contain"
             />
             <View style={styles.cardContainer}>
                 <H3 style={{
+                    fontWeight: "500"
                 }} numberOfLines={2}>{product.name}</H3>
                 <View style={styles.priceSection}>
                     <H2>₹{product.price}</H2>
@@ -70,8 +78,9 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         paddingHorizontal: theme.fontSize['text-xs'],
-        marginBottom: theme.fontSize['text-xs'],
-        rowGap: theme.fontSize['text-xs'],
+        marginVertical: theme.fontSize['text-xs'],
+        flex: 1,
+        justifyContent: "space-between"
     },
     priceSection: {
         columnGap: theme.fontSize['text-xs'],

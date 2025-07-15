@@ -25,7 +25,6 @@ const HomeMostPopular = ({
     const getData = async () => {
         try {
             const data = await APIService.dashboard.all({ mostPopular: "" });
-            console.log('mostPopular', JSON.stringify(data.mostPopular, null, 2))
             setProductData(data.mostPopular)
             return;
         } catch (error) {

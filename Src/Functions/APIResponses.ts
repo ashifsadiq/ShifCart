@@ -66,7 +66,6 @@ export const productsData = async (params = {}) => {
 }
 export const categoriesData = async (params = {}) => {
     const API = `${API_URL}products/category?${objectToUrlParams(params)}`
-    console.log(API)
     try {
         const response = await axios.get(API);
         if (Object.keys(params).indexOf('type') > -1) {
@@ -94,7 +93,6 @@ export async function fetchProducts(productIds = [], params = {}) {
     try {
         const responses = await Promise.all(urls.map(url => axios.get(url)));
         const products = await Promise.all(responses.map(res => res.data?.product));
-        console.log(products);
         return products;
     } catch (error) {
         console.error("Error fetching products:", error);

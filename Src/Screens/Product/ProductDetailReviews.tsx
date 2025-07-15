@@ -58,7 +58,7 @@ const ProductDetailReviews = ({ reviews }: { reviews: ProductDetailReviewsType[]
                         <H3 style={{
                             fontWeight: "600"
                         }}>{review.title}</H3>
-                        <TextUI>{JSON.stringify(review)}</TextUI>
+                        <TextUI>{(review.comment)}</TextUI>
                     </View>
                 )
             }}

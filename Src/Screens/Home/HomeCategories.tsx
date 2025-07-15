@@ -58,7 +58,7 @@ const HomeCategories = ({
                 return <TouchableOpacity
                     onPress={() => {
                         navigation.navigate(screenNames.CategoryScreen, {
-                            id: item.id.toString()
+                            slug: item.slug.toString()
                         })
                     }}
                     style={

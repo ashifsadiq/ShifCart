@@ -16,7 +16,6 @@ export default function WishListScreen() {
   const getData = async () => {
     setIsLoading(true)
     const getFavorites = await SQLiteService.getFavorites()
-    console.log({ getFavorites: getFavorites.map((item) => item.product_id) })
     if (Array.isArray(getFavorites)) {
       const products = await fetchProducts(getFavorites.map((item) => item.product_id))
       Array.isArray(products) && setProducts(products)

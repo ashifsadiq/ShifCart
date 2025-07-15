@@ -9,7 +9,11 @@ const OffPercent = ({
     discount: number
 }) => {
     return (
-        discount ? <TextUI style={styles.discount}>{discount}% Off</TextUI> : null
+        discount ? <View style={{
+            width: "100%",
+        }}>
+            <TextUI style={styles.discount}>{discount}% Off</TextUI>
+        </View> : null
     )
 }
 
