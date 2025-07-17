@@ -20,7 +20,7 @@ type RootStackParamList = {
   // add other routes here if needed
 };
 export type ProductDetailsParams = {
-  id: number;
+  id?: number;
   name?: string;
   slug?: string;
   description?: string;
@@ -31,6 +31,7 @@ export type ProductDetailsParams = {
   review?: number;
   review_count?: number;
   sales?: number;
+  cartItem?: number;
 };
 export type ProductsComponentProps = ProductDetailsParams & {
   customStyle?: ViewStyle;

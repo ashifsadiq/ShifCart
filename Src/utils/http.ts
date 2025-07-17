@@ -16,9 +16,9 @@ const api = axios.create({
 
 // Optional: Add request interceptors
 api.interceptors.request.use(
-  config => {
+  async config => {
     // Example: Add auth token if available
-    const token = LocalStorage.get(asyncStorageNames.BearerToken); // e.g. from AsyncStorage
+    const token = await LocalStorage.get(asyncStorageNames.BearerToken); // e.g. from AsyncStorage
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
@@ -40,7 +40,7 @@ export const apiGet = async <T = any>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  console.log('apiGet', { url: DEV_API_URL + url, config })
+  // console.log('apiGet', { url: DEV_API_URL + url, config })
   const response: AxiosResponse<T> = await api.get(url, config);
   return response.data;
 };

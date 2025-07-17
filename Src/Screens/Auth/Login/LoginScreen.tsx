@@ -30,14 +30,13 @@ export default function LoginScreen() {
   const [fetchingData, setFetchingData] = useState(false);
   const [isEyeView, setIsEyeView] = useState(false);
   const [loginData, setLoginData] = useState({
-    email: 'george25@example.org',
+    email: 'test@example.com',
     password: 'password',
   });
   const login = async () => {
     try {
       // Call API to log in
       const res = await APIService.auth.login(loginData);
-      // console.log(res.data)
       // Ensure response has required fields
       if (!res?.user || !res?.token) {
         throw new Error('Invalid response from server');
@@ -63,7 +62,7 @@ export default function LoginScreen() {
           console.error(err);
         });
     } catch (error: any) {
-      console.error('Login failed:', error.message || error);
+      console.error('Login failed:', JSON.stringify(error));
       // Optionally show toast/snackbar to user
     }
   };

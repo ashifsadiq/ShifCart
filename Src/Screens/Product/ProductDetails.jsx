@@ -20,10 +20,10 @@ import { AntDesign } from '../../Components/CustomIcons';
 import SQLiteService from '../../Functions/SQLiteService';
 import TextUI from '../../Components/ui/TextUI';
 import H1 from '../../Components/ui/H1';
-import H2 from '../../Components/ui/H2';
 import { useFocusEffect } from '@react-navigation/native';
 import ProductDetailReviews from './ProductDetailReviews';
 import OffPercent from '../../Components/ui/OffPercent';
+import ManageProductDetailCart from './ManageProductDetailCart';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -44,14 +44,6 @@ export default function ProductDetails({ route }) {
         setProductData(product.data)
         const allImages = [product.data?.image, ...(product.data?.images ?? [])].map(image => ({ uri: image }));
         setProductImages(allImages);
-    };
-    const addToCart = async () => {
-        const item = await SQLiteService.addToCart(id);
-        setCurrentCount(item ? item.product_qty ?? null : null)
-    };
-    const removeFromCart = async () => {
-        const item = await SQLiteService.removeFromCart(id);
-        setCurrentCount(item ? item.product_qty ?? null : null)
     };
     const toggleFavorite = async () => {
         const isFavItem = await SQLiteService.isFavorite(id);
@@ -190,55 +182,13 @@ export default function ProductDetails({ route }) {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => <View style={{ marginBottom: theme.radius }} >{item}</View>}
             />
-            {Object.keys(productData).length > 0 && <View style={styles.bottomBar}>
-                <Text style={styles.bottomPrice}>₹{productData.price}</Text>
-                {currentCount < 1 ? <TouchableOpacity
-                    style={[styles.addToCartButton, addLoading && { opacity: 0.5 }]}
-                    disabled={addLoading}
-                    onPress={addToCart}
-                >
-                    {addLoading ? (
-                        <ActivityIndicator size="small" color={theme.dark.foreground} />
-                    ) : (
-                        <H2 style={styles.addToCartButtonText}>Add to Cart</H2>
-                    )}
-                </TouchableOpacity>
-                    :
-                    <View style={{
-                        ...styles.addToCartButton,
-                        justifyContent: 'space-between',
-                        backgroundColor: theme.card
-                        // width: screenWidth / 2.5,
-                        // opacity: addLoading ? 0.5 : 1,
-                    }} >
-                        <TouchableOpacity
-                            disabled={addLoading}
-                            onPress={removeFromCart}
-                        >
-                            <Text><AntDesign size={styles.addToCartButtonText.fontSize} name='minus' /></Text>
-                        </TouchableOpacity>
-                        <H2 style={[styles.addToCartButtonText, { color: theme.foreground }]}>{currentCount}</H2>
-                        <TouchableOpacity
-                            disabled={addLoading}
-                            onPress={addToCart}
-                        >
-                            <Text><AntDesign size={styles.addToCartButtonText.fontSize} name='plus' /></Text>
-                        </TouchableOpacity>
-                    </View>
-                }
-            </View>}
+            {productData.price && <ManageProductDetailCart key={productData.cartItem} product={productData} />}
             <ImageView
                 images={productImages}
                 imageIndex={currentImageIndex}
                 visible={visible}
                 backgroundColor='#fff'
                 onRequestClose={() => setIsVisible(false)}
-            // onImageIndexChange={(index) => {
-            //     if (visible) {
-            //         imageFlatListRef.current?.scrollToIndex({ index, animated: true });
-            //         scrollThumbnailToCenter(index)
-            //     }
-            // }}
             />
         </UserLayout>
     );

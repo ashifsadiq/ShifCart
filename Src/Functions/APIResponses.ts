@@ -1,13 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { API_URL } from '../config/defaults';
 import { apiGet, apiPost } from '../utils/http';
+import { ProductDetailsParams } from '../Components/ProductsComponent';
 const APIService = {
     auth: {
         login: async (data: any) => {
             try {
                 return await apiPost('login', data);
             } catch (error) {
-                console.error('Login failed:', error.message);
+                console.error('Login failed:', JSON.stringify(error));
                 throw error;
             }
         },
@@ -32,7 +33,7 @@ const APIService = {
             try {
                 return await apiGet('categories');
             } catch (error) {
-                console.error('category.all failed', error);
+                console.error('category.all failed', JSON.stringify(error));
                 throw error;
             }
         },
@@ -40,10 +41,32 @@ const APIService = {
             try {
                 return await apiGet(`categories/${id}`);
             } catch (error) {
-                console.error('category.id failed', error);
+                console.error('category.id failed', JSON.stringify(error));
                 throw error;
             }
         },
+    },
+    cart: {
+        add: async (id: ProductDetailsParams['id']) => {
+            try {
+                return await apiPost(`cart/add`, {
+                    "product_id": id
+                });
+            } catch (error: any) {
+                console.error('cart.add failed', JSON.stringify(error.response.data));
+                throw error;
+            }
+        },
+        remove: async (id: ProductDetailsParams['id']) => {
+            try {
+                return await apiPost(`cart/remove`, {
+                    "product_id": id
+                });
+            } catch (error: any) {
+                console.error('cart.remove failed', JSON.stringify(error.response));
+                throw error;
+            }
+        }
     }
 }
 function objectToUrlParams(obj: any) {

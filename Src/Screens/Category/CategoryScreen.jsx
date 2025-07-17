@@ -15,8 +15,6 @@ export default function CategoryScreen(props) {
                 const cat = await APIService.category.view(props?.route?.params?.slug)
                 const { data, links, meta } = cat;
                 setCategoryData(data);
-                console.log(data);
-                console.log({ cat: Object.keys(cat) })
             }
         } catch (error) {
             console.error('Error fetching products:15', error);
