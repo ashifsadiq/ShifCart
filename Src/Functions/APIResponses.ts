@@ -7,7 +7,7 @@ const APIService = {
             try {
                 return await apiPost('login', data);
             } catch (error) {
-                console.error('Login failed:', error);
+                console.error('Login failed:', error.message);
                 throw error;
             }
         },

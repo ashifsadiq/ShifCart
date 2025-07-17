@@ -1,6 +1,8 @@
 // src/utils/http.ts
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { DEV_API_URL } from '../config/defaults';
+import LocalStorage from '../Functions/asyncStorage';
+import asyncStorageNames from '../config/asyncStorageNames';
 
 
 const api = axios.create({
@@ -16,8 +18,8 @@ const api = axios.create({
 api.interceptors.request.use(
   config => {
     // Example: Add auth token if available
-    // const token = getToken(); // e.g. from AsyncStorage
-    // if (token) config.headers.Authorization = `Bearer ${token}`;
+    const token = LocalStorage.get(asyncStorageNames.BearerToken); // e.g. from AsyncStorage
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
   error => Promise.reject(error)
@@ -38,7 +40,7 @@ export const apiGet = async <T = any>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  console.log('apiGet',{url: DEV_API_URL+url, config})
+  console.log('apiGet', { url: DEV_API_URL + url, config })
   const response: AxiosResponse<T> = await api.get(url, config);
   return response.data;
 };

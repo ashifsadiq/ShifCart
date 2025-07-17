@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   ImageBackground,
@@ -15,12 +15,14 @@ import theme from '../../../config/theme';
 import TextUI from '../../../Components/ui/TextUI';
 import ButtonUi from '../../../Components/ui/ButtonUi';
 import TextInputComponent from '../../../Components/ui/TextInputComponent';
-import {Ionicons} from '../../../Components/CustomIcons';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Ionicons } from '../../../Components/CustomIcons';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import assets from '../../../Assets/assets';
 import APIService from '../../../Functions/APIResponses';
 import SQLiteService from '../../../Functions/SQLiteService';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import LocalStorage from '../../../Functions/asyncStorage';
+import asyncStorageNames from '../../../config/asyncStorageNames';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -35,7 +37,7 @@ export default function LoginScreen() {
     try {
       // Call API to log in
       const res = await APIService.auth.login(loginData);
-
+      // console.log(res.data)
       // Ensure response has required fields
       if (!res?.user || !res?.token) {
         throw new Error('Invalid response from server');
@@ -53,13 +55,14 @@ export default function LoginScreen() {
         token: res.token,
       })
         .then(sql => {
+          LocalStorage.set(asyncStorageNames.BearerToken, res.token)
           navigation.goBack();
-          console.log('Login successful and user saved locally:', user, {sql});
+          console.log('Login successful and user saved locally:', user, { sql });
         })
         .catch(err => {
           console.error(err);
         });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login failed:', error.message || error);
       // Optionally show toast/snackbar to user
     }
@@ -67,7 +70,7 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={
         Platform.OS === 'ios' ? theme.screenHeight * 0.05 : 0
@@ -84,7 +87,7 @@ export default function LoginScreen() {
               placeholder: 'Enter your email here',
               value: loginData.email,
               onChangeText: text => {
-                setLoginData(state => ({...state, email: text}));
+                setLoginData(state => ({ ...state, email: text }));
               },
             }}
           />
@@ -109,7 +112,7 @@ export default function LoginScreen() {
               secureTextEntry: isEyeView,
               value: loginData.password,
               onChangeText: text => {
-                setLoginData(state => ({...state, password: text}));
+                setLoginData(state => ({ ...state, password: text }));
               },
             }}
           />
