@@ -93,7 +93,7 @@ const ManageProductDetailCart = ({
                         style={[styles.addToCartButton, addLoading && { opacity: 0.5 },
                         {
                             backgroundColor: theme.primary,
-                            marginVertical: theme.radius*0.75
+                            marginVertical: theme.radius * 0.75
                         }]}
                         disabled={addLoading}
                         onPress={addToCart}
@@ -101,7 +101,9 @@ const ManageProductDetailCart = ({
                         {addLoading ? (
                             <ActivityIndicator size="small" color={theme.dark.foreground} />
                         ) : (
-                            <TextUI style={styles.addToCartButtonText}>Add to Cart</TextUI>
+                            <TextUI style={[styles.addToCartButtonText, {
+                                color: '#fff',
+                            }]}>Add to Cart</TextUI>
                         )}
                     </TouchableOpacity>
                 }
@@ -136,6 +138,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     addToCartButtonText: {
-        fontWeight: "600"
+        fontWeight: "600",
     },
 })

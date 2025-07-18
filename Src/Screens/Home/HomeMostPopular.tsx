@@ -17,7 +17,7 @@ type HomeMostPopularProps = {
 const HomeMostPopular = ({
     hideListHeaderComponent = true,
     style = {},
-    numColumns = 3
+    numColumns = 3,
 }: HomeMostPopularProps) => {
     const [productData, setProductData] = useState<ProductsComponentProps[]>([])
     const navigation =
@@ -38,25 +38,28 @@ const HomeMostPopular = ({
         getData();
     }, []);
     return (
-        <FlatList
-            data={productData}
-            ListHeaderComponent={hideListHeaderComponent ? null : ListHeaderComponent}
-            showsVerticalScrollIndicator={false}
-            style={[styles.flatList, style]}
-            horizontal
-            contentContainerStyle={{
-                gap: 10,
-                marginBottom: theme.radius * 4,
-                marginTop: theme.radius * 2,
-            }}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) =>
-                <MostPopularComponent
-                    {...item}
-                />
-            }
-        />
+
+        <>
+            {hideListHeaderComponent ? null : <ListHeaderComponent />}
+            <FlatList
+                data={productData}
+                showsVerticalScrollIndicator={false}
+                style={[styles.flatList, style]}
+                horizontal
+                contentContainerStyle={{
+                    gap: 10,
+                    marginBottom: theme.radius * 4,
+                    marginTop: theme.radius * 2,
+                }}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) =>
+                    <MostPopularComponent
+                        {...item}
+                    />
+                }
+            />
+        </>
     )
 }
 

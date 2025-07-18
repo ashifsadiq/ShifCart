@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, useColorScheme } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, RouteProp } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Screens
@@ -22,10 +22,7 @@ import LoginScreen from './Screens/Auth/Login/LoginScreen';
 import { ProductDetailsParams } from './Components/ProductsComponent';
 
 // Navigators
-export type RootStackParamList = {
-  [screenNames.ProductDetails]: ProductDetailsParams;
-};
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {
   const isDarkMode = useColorScheme() != 'dark';

@@ -32,25 +32,27 @@ const HomeTopProducts = ({
     getData();
   }, []);
   return (
-    <FlatList
-      data={productData}
-      ListHeaderComponent={hideListHeaderComponent ? null : ListHeaderComponent}
-      showsVerticalScrollIndicator={false}
-      style={[styles.flatList, style]}
-      horizontal
-      contentContainerStyle={{
-        gap: 10,
-        marginBottom: theme.radius * 4,
-        marginTop: theme.radius * 2,
-      }}
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item, index }) =>
-        <ProductListComponent
-          {...item}
-        />
-      }
-    />
+    <>
+      {hideListHeaderComponent ? null : <ListHeaderComponent />}
+      <FlatList
+        data={productData}
+        showsVerticalScrollIndicator={false}
+        style={[styles.flatList, style]}
+        horizontal
+        contentContainerStyle={{
+          gap: 10,
+          marginBottom: theme.radius * 4,
+          marginTop: theme.radius * 2,
+        }}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) =>
+          <ProductListComponent
+            {...item}
+          />
+        }
+      />
+    </>
   )
 }
 

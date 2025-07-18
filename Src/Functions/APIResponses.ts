@@ -3,6 +3,11 @@ import { API_URL } from '../config/defaults';
 import { apiGet, apiPost } from '../utils/http';
 import { ProductDetailsParams } from '../Components/ProductsComponent';
 const APIService = {
+    addresses: {
+        all: async (params = {}) => {
+            return await apiGet('address');
+        }
+    },
     auth: {
         login: async (data: any) => {
             try {
@@ -64,6 +69,15 @@ const APIService = {
                 });
             } catch (error: any) {
                 console.error('cart.remove failed', JSON.stringify(error.response));
+                throw error;
+            }
+        },
+        all: async (params = {}) => {
+            try {
+                const UrlParams = objectToUrlParams(params)
+                return await apiGet(`cart?${UrlParams}`);
+            } catch (error: any) {
+                console.error('cart.all failed', JSON.stringify(error.response));
                 throw error;
             }
         }

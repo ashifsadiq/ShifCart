@@ -19,7 +19,10 @@ api.interceptors.request.use(
   async config => {
     // Example: Add auth token if available
     const token = await LocalStorage.get(asyncStorageNames.BearerToken); // e.g. from AsyncStorage
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+      console.log('token', JSON.stringify(token, null, 2))
+    };
     return config;
   },
   error => Promise.reject(error)
